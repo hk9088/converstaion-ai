@@ -1033,7 +1033,7 @@ import java.util.List;
 
 /**
  * Orchestrates the questionnaire flow including question progression,
- * retry logic, and response processing.
+ * retry logic, and response processing with automatic retry messages.
  */
 @Slf4j
 @Service
@@ -1073,7 +1073,7 @@ public class QuestionnaireOrchestrator {
         if (question == null) {
             questionText = "Thank you for completing the questionnaire. Your responses have been recorded.";
         } else {
-            questionText = formatQuestionText(question, session.getRetryCount());
+            questionText = formatQuestionWithRetryMessage(question, session.getRetryCount());
         }
 
         return textToSpeechService.synthesizeSpeech(questionText);
@@ -1168,14 +1168,28 @@ public class QuestionnaireOrchestrator {
         return ProcessingResult.retry(session, question, transcript, retriesRemaining);
     }
 
-    private String formatQuestionText(Question question, int retryCount) {
-        if (retryCount == 0) {
-            return question.getText();
-        } else if (retryCount == 1) {
-            return "I didn't quite catch that. Let me ask again. " + question.getText();
-        } else {
-            return "Let's try one more time. " + question.getText();
+    /**
+     * Formats question text with appropriate retry message based on retry count.
+     * This creates a natural conversational flow with contextual retry messages.
+     */
+    private String formatQuestionWithRetryMessage(Question question, int retryCount) {
+        String retryMessage;
+
+        switch (retryCount) {
+            case 0:
+                return question.getText();
+            case 1:
+                retryMessage = "Sorry, I didn't catch that. Let me ask again. ";
+                break;
+            case 2:
+                retryMessage = "I'm having trouble understanding. Let's try one more time. ";
+                break;
+            default:
+                retryMessage = "Let me repeat the question. ";
+                break;
         }
+
+        return retryMessage + question.getText();
     }
 
     @Data
