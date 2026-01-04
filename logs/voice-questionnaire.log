@@ -1,0 +1,913 @@
+2026-01-04 14:14:02.764 [restartedMain] INFO  c.v.c.ConversationApplication - Starting ConversationApplication using Java 17.0.15 with PID 78127 (/home/hridoy/Downloads/conversation/build/classes/java/main started by hridoy in /home/hridoy/Downloads/conversation)
+2026-01-04 14:14:02.767 [restartedMain] INFO  c.v.c.ConversationApplication - No active profile set, falling back to 1 default profile: "default"
+2026-01-04 14:14:02.815 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-04 14:14:02.816 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-04 14:14:03.833 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-04 14:14:03.835 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-04 14:14:03.862 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 Redis repository interfaces.
+2026-01-04 14:14:04.385 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-01-04 14:14:04.395 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-01-04 14:14:04.396 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-01-04 14:14:04.433 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-01-04 14:14:04.434 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1616 ms
+2026-01-04 14:14:04.644 [restartedMain] INFO  c.v.conversation.config.RedisConfig - Configuring Redis connection to localhost:6379
+2026-01-04 14:14:04.918 [restartedMain] INFO  c.v.conversation.config.RedisConfig - RedisTemplate configured with polymorphic JSON serialization
+2026-01-04 14:14:04.922 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Polly client for region: us-east-1
+2026-01-04 14:14:05.312 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Transcribe Streaming client for region: us-east-1
+2026-01-04 14:14:05.410 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Bedrock Runtime client for region: us-east-1
+2026-01-04 14:14:05.473 [restartedMain] INFO  c.v.c.config.SecurityConfig - Configuring CORS for origins: [http://localhost:5173, http://localhost:3000]
+2026-01-04 14:14:05.957 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-01-04 14:14:05.962 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 2 endpoints beneath base path '/actuator'
+2026-01-04 14:14:06.007 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-01-04 14:14:06.025 [restartedMain] INFO  c.v.c.ConversationApplication - Started ConversationApplication in 4.154 seconds (process running for 4.956)
+2026-01-04 14:14:06.298 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04 14:14:06.299 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-01-04 14:14:06.301 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-01-04 14:14:17.300 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:14:17.300 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:14:17.321 [http-nio-8080-exec-1] INFO  c.v.c.service.SessionService - Created session: 7a5c0f1f-7e1d-41cd-82bc-060265387d69 with TTL: 30 minutes
+2026-01-04 14:14:17.321 [http-nio-8080-exec-2] INFO  c.v.c.service.SessionService - Created session: 369e85ee-3adf-4592-ae2c-5fc78bce5f79 with TTL: 30 minutes
+2026-01-04 14:14:17.347 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 7a5c0f1f-7e1d-41cd-82bc-060265387d69
+2026-01-04 14:14:17.347 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 369e85ee-3adf-4592-ae2c-5fc78bce5f79
+2026-01-04 14:14:17.378 [http-nio-8080-exec-4] ERROR c.v.c.c.e.GlobalExceptionHandler - Unexpected error: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:311)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:281)
+	at org.springframework.data.redis.core.AbstractOperations.deserializeValue(AbstractOperations.java:380)
+	at org.springframework.data.redis.core.AbstractOperations$ValueDeserializingRedisCallback.doInRedis(AbstractOperations.java:63)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:413)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:380)
+	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:117)
+	at org.springframework.data.redis.core.DefaultValueOperations.get(DefaultValueOperations.java:50)
+	at com.voiceai.conversation.service.SessionService.getSession(SessionService.java:48)
+	at com.voiceai.conversation.service.QuestionnaireOrchestrator.getCurrentQuestion(QuestionnaireOrchestrator.java:36)
+	at com.voiceai.conversation.controller.QuestionnaireController.getCurrentQuestion(QuestionnaireController.java:60)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1180)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2244)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1823)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1801)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:308)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:207)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:179)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer._deserializeTypedForId(AsPropertyTypeDeserializer.java:169)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer.deserializeTypedFromObject(AsPropertyTypeDeserializer.java:135)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeWithType(BeanDeserializerBase.java:1384)
+	at com.fasterxml.jackson.databind.deser.impl.TypeWrappedDeserializer.deserialize(TypeWrappedDeserializer.java:74)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4979)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3997)
+	at org.springframework.data.redis.serializer.JacksonObjectReader.lambda$create$0(JacksonObjectReader.java:54)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:309)
+	... 64 common frames omitted
+2026-01-04 14:14:17.378 [http-nio-8080-exec-3] ERROR c.v.c.c.e.GlobalExceptionHandler - Unexpected error: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:311)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:281)
+	at org.springframework.data.redis.core.AbstractOperations.deserializeValue(AbstractOperations.java:380)
+	at org.springframework.data.redis.core.AbstractOperations$ValueDeserializingRedisCallback.doInRedis(AbstractOperations.java:63)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:413)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:380)
+	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:117)
+	at org.springframework.data.redis.core.DefaultValueOperations.get(DefaultValueOperations.java:50)
+	at com.voiceai.conversation.service.SessionService.getSession(SessionService.java:48)
+	at com.voiceai.conversation.service.QuestionnaireOrchestrator.getCurrentQuestion(QuestionnaireOrchestrator.java:36)
+	at com.voiceai.conversation.controller.QuestionnaireController.getCurrentQuestion(QuestionnaireController.java:60)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1180)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2244)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1823)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1801)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:308)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:207)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:179)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer._deserializeTypedForId(AsPropertyTypeDeserializer.java:169)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer.deserializeTypedFromObject(AsPropertyTypeDeserializer.java:135)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeWithType(BeanDeserializerBase.java:1384)
+	at com.fasterxml.jackson.databind.deser.impl.TypeWrappedDeserializer.deserialize(TypeWrappedDeserializer.java:74)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4979)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3997)
+	at org.springframework.data.redis.serializer.JacksonObjectReader.lambda$create$0(JacksonObjectReader.java:54)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:309)
+	... 64 common frames omitted
+2026-01-04 14:14:17.384 [http-nio-8080-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])<EOL> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) ]
+2026-01-04 14:14:17.384 [http-nio-8080-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])<EOL> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) ]
+2026-01-04 14:14:53.114 [http-nio-8080-exec-5] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:14:53.116 [http-nio-8080-exec-5] INFO  c.v.c.service.SessionService - Created session: 986eac34-1396-411c-a1b8-06a93ada0651 with TTL: 30 minutes
+2026-01-04 14:14:53.116 [http-nio-8080-exec-6] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:14:53.118 [http-nio-8080-exec-6] INFO  c.v.c.service.SessionService - Created session: 21e7b374-c204-42db-a25d-219f398b4b5c with TTL: 30 minutes
+2026-01-04 14:14:53.123 [http-nio-8080-exec-7] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 986eac34-1396-411c-a1b8-06a93ada0651
+2026-01-04 14:14:53.123 [http-nio-8080-exec-8] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 21e7b374-c204-42db-a25d-219f398b4b5c
+2026-01-04 14:14:53.125 [http-nio-8080-exec-7] ERROR c.v.c.c.e.GlobalExceptionHandler - Unexpected error: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:311)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:281)
+	at org.springframework.data.redis.core.AbstractOperations.deserializeValue(AbstractOperations.java:380)
+	at org.springframework.data.redis.core.AbstractOperations$ValueDeserializingRedisCallback.doInRedis(AbstractOperations.java:63)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:413)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:380)
+	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:117)
+	at org.springframework.data.redis.core.DefaultValueOperations.get(DefaultValueOperations.java:50)
+	at com.voiceai.conversation.service.SessionService.getSession(SessionService.java:48)
+	at com.voiceai.conversation.service.QuestionnaireOrchestrator.getCurrentQuestion(QuestionnaireOrchestrator.java:36)
+	at com.voiceai.conversation.controller.QuestionnaireController.getCurrentQuestion(QuestionnaireController.java:60)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1180)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2244)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1823)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1801)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:308)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:207)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:179)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer._deserializeTypedForId(AsPropertyTypeDeserializer.java:169)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer.deserializeTypedFromObject(AsPropertyTypeDeserializer.java:135)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeWithType(BeanDeserializerBase.java:1384)
+	at com.fasterxml.jackson.databind.deser.impl.TypeWrappedDeserializer.deserialize(TypeWrappedDeserializer.java:74)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4979)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3997)
+	at org.springframework.data.redis.serializer.JacksonObjectReader.lambda$create$0(JacksonObjectReader.java:54)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:309)
+	... 64 common frames omitted
+2026-01-04 14:14:53.125 [http-nio-8080-exec-8] ERROR c.v.c.c.e.GlobalExceptionHandler - Unexpected error: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:311)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:281)
+	at org.springframework.data.redis.core.AbstractOperations.deserializeValue(AbstractOperations.java:380)
+	at org.springframework.data.redis.core.AbstractOperations$ValueDeserializingRedisCallback.doInRedis(AbstractOperations.java:63)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:413)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:380)
+	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:117)
+	at org.springframework.data.redis.core.DefaultValueOperations.get(DefaultValueOperations.java:50)
+	at com.voiceai.conversation.service.SessionService.getSession(SessionService.java:48)
+	at com.voiceai.conversation.service.QuestionnaireOrchestrator.getCurrentQuestion(QuestionnaireOrchestrator.java:36)
+	at com.voiceai.conversation.controller.QuestionnaireController.getCurrentQuestion(QuestionnaireController.java:60)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1180)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2244)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1823)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1801)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:308)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:207)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:179)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer._deserializeTypedForId(AsPropertyTypeDeserializer.java:169)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer.deserializeTypedFromObject(AsPropertyTypeDeserializer.java:135)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeWithType(BeanDeserializerBase.java:1384)
+	at com.fasterxml.jackson.databind.deser.impl.TypeWrappedDeserializer.deserialize(TypeWrappedDeserializer.java:74)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4979)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3997)
+	at org.springframework.data.redis.serializer.JacksonObjectReader.lambda$create$0(JacksonObjectReader.java:54)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:309)
+	... 64 common frames omitted
+2026-01-04 14:14:53.127 [http-nio-8080-exec-7] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])<EOL> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) ]
+2026-01-04 14:14:53.127 [http-nio-8080-exec-8] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])<EOL> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) ]
+2026-01-04 14:14:58.374 [http-nio-8080-exec-9] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:14:58.376 [http-nio-8080-exec-9] INFO  c.v.c.service.SessionService - Created session: 2e20e873-0728-4d04-9a82-6415125544f5 with TTL: 30 minutes
+2026-01-04 14:14:58.376 [http-nio-8080-exec-10] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:14:58.378 [http-nio-8080-exec-10] INFO  c.v.c.service.SessionService - Created session: c6c8279a-a095-4e3d-b9b9-cf15d074a2ad with TTL: 30 minutes
+2026-01-04 14:14:58.385 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 2e20e873-0728-4d04-9a82-6415125544f5
+2026-01-04 14:14:58.387 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: c6c8279a-a095-4e3d-b9b9-cf15d074a2ad
+2026-01-04 14:14:58.388 [http-nio-8080-exec-2] ERROR c.v.c.c.e.GlobalExceptionHandler - Unexpected error: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:311)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:281)
+	at org.springframework.data.redis.core.AbstractOperations.deserializeValue(AbstractOperations.java:380)
+	at org.springframework.data.redis.core.AbstractOperations$ValueDeserializingRedisCallback.doInRedis(AbstractOperations.java:63)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:413)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:380)
+	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:117)
+	at org.springframework.data.redis.core.DefaultValueOperations.get(DefaultValueOperations.java:50)
+	at com.voiceai.conversation.service.SessionService.getSession(SessionService.java:48)
+	at com.voiceai.conversation.service.QuestionnaireOrchestrator.getCurrentQuestion(QuestionnaireOrchestrator.java:36)
+	at com.voiceai.conversation.controller.QuestionnaireController.getCurrentQuestion(QuestionnaireController.java:60)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1180)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2244)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1823)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1801)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:308)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:207)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:179)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer._deserializeTypedForId(AsPropertyTypeDeserializer.java:169)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer.deserializeTypedFromObject(AsPropertyTypeDeserializer.java:135)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeWithType(BeanDeserializerBase.java:1384)
+	at com.fasterxml.jackson.databind.deser.impl.TypeWrappedDeserializer.deserialize(TypeWrappedDeserializer.java:74)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4979)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3997)
+	at org.springframework.data.redis.serializer.JacksonObjectReader.lambda$create$0(JacksonObjectReader.java:54)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:309)
+	... 64 common frames omitted
+2026-01-04 14:14:58.389 [http-nio-8080-exec-1] ERROR c.v.c.c.e.GlobalExceptionHandler - Unexpected error: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:311)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:281)
+	at org.springframework.data.redis.core.AbstractOperations.deserializeValue(AbstractOperations.java:380)
+	at org.springframework.data.redis.core.AbstractOperations$ValueDeserializingRedisCallback.doInRedis(AbstractOperations.java:63)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:413)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:380)
+	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:117)
+	at org.springframework.data.redis.core.DefaultValueOperations.get(DefaultValueOperations.java:50)
+	at com.voiceai.conversation.service.SessionService.getSession(SessionService.java:48)
+	at com.voiceai.conversation.service.QuestionnaireOrchestrator.getCurrentQuestion(QuestionnaireOrchestrator.java:36)
+	at com.voiceai.conversation.controller.QuestionnaireController.getCurrentQuestion(QuestionnaireController.java:60)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1180)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2244)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1823)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1801)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:308)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:207)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:179)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer._deserializeTypedForId(AsPropertyTypeDeserializer.java:169)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer.deserializeTypedFromObject(AsPropertyTypeDeserializer.java:135)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeWithType(BeanDeserializerBase.java:1384)
+	at com.fasterxml.jackson.databind.deser.impl.TypeWrappedDeserializer.deserialize(TypeWrappedDeserializer.java:74)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4979)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3997)
+	at org.springframework.data.redis.serializer.JacksonObjectReader.lambda$create$0(JacksonObjectReader.java:54)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:309)
+	... 64 common frames omitted
+2026-01-04 14:14:58.390 [http-nio-8080-exec-2] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])<EOL> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) ]
+2026-01-04 14:14:58.391 [http-nio-8080-exec-1] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])<EOL> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) ]
+2026-01-04 14:15:12.486 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-04 14:15:12.488 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-01-04 14:16:39.787 [restartedMain] INFO  c.v.c.ConversationApplication - Starting ConversationApplication using Java 17.0.15 with PID 84726 (/home/hridoy/Downloads/conversation/build/classes/java/main started by hridoy in /home/hridoy/Downloads/conversation)
+2026-01-04 14:16:39.789 [restartedMain] INFO  c.v.c.ConversationApplication - No active profile set, falling back to 1 default profile: "default"
+2026-01-04 14:16:39.827 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-04 14:16:39.827 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-04 14:16:40.627 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-04 14:16:40.629 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-04 14:16:40.652 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2026-01-04 14:16:41.030 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-01-04 14:16:41.039 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-01-04 14:16:41.039 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-01-04 14:16:41.069 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-01-04 14:16:41.069 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1242 ms
+2026-01-04 14:16:41.217 [restartedMain] INFO  c.v.conversation.config.RedisConfig - Configuring Redis connection to localhost:6379
+2026-01-04 14:16:41.466 [restartedMain] INFO  c.v.conversation.config.RedisConfig - RedisTemplate configured with polymorphic JSON serialization
+2026-01-04 14:16:41.470 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Polly client for region: us-east-1
+2026-01-04 14:16:41.836 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Transcribe Streaming client for region: us-east-1
+2026-01-04 14:16:41.898 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Bedrock Runtime client for region: us-east-1
+2026-01-04 14:16:41.948 [restartedMain] INFO  c.v.c.config.SecurityConfig - Configuring CORS for origins: [http://localhost:5173, http://localhost:3000]
+2026-01-04 14:16:42.383 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-01-04 14:16:42.388 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 2 endpoints beneath base path '/actuator'
+2026-01-04 14:16:42.431 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-01-04 14:16:42.450 [restartedMain] INFO  c.v.c.ConversationApplication - Started ConversationApplication in 3.054 seconds (process running for 3.817)
+2026-01-04 14:16:43.057 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04 14:16:43.058 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-01-04 14:16:43.061 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-01-04 14:16:53.937 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:16:53.937 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:16:53.954 [http-nio-8080-exec-2] INFO  c.v.c.service.SessionService - Created session: 1d0957b7-ebda-4a94-8d7a-fc42b486a600 with TTL: 30 minutes
+2026-01-04 14:16:53.954 [http-nio-8080-exec-1] INFO  c.v.c.service.SessionService - Created session: f4edea35-7c2a-469d-86cc-833f4c4f56e0 with TTL: 30 minutes
+2026-01-04 14:16:53.979 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 1d0957b7-ebda-4a94-8d7a-fc42b486a600
+2026-01-04 14:16:53.979 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: f4edea35-7c2a-469d-86cc-833f4c4f56e0
+2026-01-04 14:16:54.009 [http-nio-8080-exec-3] ERROR c.v.c.c.e.GlobalExceptionHandler - Unexpected error: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:311)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:281)
+	at org.springframework.data.redis.core.AbstractOperations.deserializeValue(AbstractOperations.java:380)
+	at org.springframework.data.redis.core.AbstractOperations$ValueDeserializingRedisCallback.doInRedis(AbstractOperations.java:63)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:413)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:380)
+	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:117)
+	at org.springframework.data.redis.core.DefaultValueOperations.get(DefaultValueOperations.java:50)
+	at com.voiceai.conversation.service.SessionService.getSession(SessionService.java:48)
+	at com.voiceai.conversation.service.QuestionnaireOrchestrator.getCurrentQuestion(QuestionnaireOrchestrator.java:36)
+	at com.voiceai.conversation.controller.QuestionnaireController.getCurrentQuestion(QuestionnaireController.java:60)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1180)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2244)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1823)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1801)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:308)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:207)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:179)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer._deserializeTypedForId(AsPropertyTypeDeserializer.java:169)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer.deserializeTypedFromObject(AsPropertyTypeDeserializer.java:135)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeWithType(BeanDeserializerBase.java:1384)
+	at com.fasterxml.jackson.databind.deser.impl.TypeWrappedDeserializer.deserialize(TypeWrappedDeserializer.java:74)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4979)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3997)
+	at org.springframework.data.redis.serializer.JacksonObjectReader.lambda$create$0(JacksonObjectReader.java:54)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:309)
+	... 64 common frames omitted
+2026-01-04 14:16:54.009 [http-nio-8080-exec-4] ERROR c.v.c.c.e.GlobalExceptionHandler - Unexpected error: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) 
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:311)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:281)
+	at org.springframework.data.redis.core.AbstractOperations.deserializeValue(AbstractOperations.java:380)
+	at org.springframework.data.redis.core.AbstractOperations$ValueDeserializingRedisCallback.doInRedis(AbstractOperations.java:63)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:413)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:380)
+	at org.springframework.data.redis.core.AbstractOperations.execute(AbstractOperations.java:117)
+	at org.springframework.data.redis.core.DefaultValueOperations.get(DefaultValueOperations.java:50)
+	at com.voiceai.conversation.service.SessionService.getSession(SessionService.java:48)
+	at com.voiceai.conversation.service.QuestionnaireOrchestrator.getCurrentQuestion(QuestionnaireOrchestrator.java:36)
+	at com.voiceai.conversation.controller.QuestionnaireController.getCurrentQuestion(QuestionnaireController.java:60)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])
+ at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"])
+	at com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException.from(UnrecognizedPropertyException.java:61)
+	at com.fasterxml.jackson.databind.DeserializationContext.handleUnknownProperty(DeserializationContext.java:1180)
+	at com.fasterxml.jackson.databind.deser.std.StdDeserializer.handleUnknownProperty(StdDeserializer.java:2244)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownProperty(BeanDeserializerBase.java:1823)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.handleUnknownVanilla(BeanDeserializerBase.java:1801)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.vanillaDeserialize(BeanDeserializer.java:308)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer._deserializeOther(BeanDeserializer.java:207)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:179)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer._deserializeTypedForId(AsPropertyTypeDeserializer.java:169)
+	at com.fasterxml.jackson.databind.jsontype.impl.AsPropertyTypeDeserializer.deserializeTypedFromObject(AsPropertyTypeDeserializer.java:135)
+	at com.fasterxml.jackson.databind.deser.BeanDeserializerBase.deserializeWithType(BeanDeserializerBase.java:1384)
+	at com.fasterxml.jackson.databind.deser.impl.TypeWrappedDeserializer.deserialize(TypeWrappedDeserializer.java:74)
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:342)
+	at com.fasterxml.jackson.databind.ObjectMapper._readMapAndClose(ObjectMapper.java:4979)
+	at com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:3997)
+	at org.springframework.data.redis.serializer.JacksonObjectReader.lambda$create$0(JacksonObjectReader.java:54)
+	at org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.deserialize(GenericJackson2JsonRedisSerializer.java:309)
+	... 64 common frames omitted
+2026-01-04 14:16:54.014 [http-nio-8080-exec-3] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])<EOL> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) ]
+2026-01-04 14:16:54.014 [http-nio-8080-exec-4] WARN  o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - Resolved [org.springframework.data.redis.serializer.SerializationException: Could not read JSON:Unrecognized field "active" (class com.voiceai.conversation.model.Session), not marked as ignorable (8 known properties: "sessionId", "responses", "currentQuestionIndex", "retryCount", "createdAt", "transcriptHistory", "lastModifiedAt", "status"])<EOL> at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 335] (through reference chain: com.voiceai.conversation.model.Session["active"]) ]
+2026-01-04 14:18:23.624 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-04 14:18:23.626 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-01-04 14:18:27.685 [restartedMain] INFO  c.v.c.ConversationApplication - Starting ConversationApplication using Java 17.0.15 with PID 89045 (/home/hridoy/Downloads/conversation/build/classes/java/main started by hridoy in /home/hridoy/Downloads/conversation)
+2026-01-04 14:18:27.687 [restartedMain] INFO  c.v.c.ConversationApplication - No active profile set, falling back to 1 default profile: "default"
+2026-01-04 14:18:27.735 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-04 14:18:27.735 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-04 14:18:29.742 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-04 14:18:29.749 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-04 14:18:29.813 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 33 ms. Found 0 Redis repository interfaces.
+2026-01-04 14:18:30.322 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-01-04 14:18:30.333 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-01-04 14:18:30.334 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-01-04 14:18:30.379 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-01-04 14:18:30.380 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2643 ms
+2026-01-04 14:18:30.594 [restartedMain] INFO  c.v.conversation.config.RedisConfig - Configuring Redis connection to localhost:6379
+2026-01-04 14:18:30.853 [restartedMain] INFO  c.v.conversation.config.RedisConfig - RedisTemplate configured with polymorphic JSON serialization
+2026-01-04 14:18:30.857 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Polly client for region: us-east-1
+2026-01-04 14:18:31.180 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Transcribe Streaming client for region: us-east-1
+2026-01-04 14:18:31.231 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Bedrock Runtime client for region: us-east-1
+2026-01-04 14:18:31.277 [restartedMain] INFO  c.v.c.config.SecurityConfig - Configuring CORS for origins: [http://localhost:5173, http://localhost:3000]
+2026-01-04 14:18:31.676 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-01-04 14:18:31.681 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 2 endpoints beneath base path '/actuator'
+2026-01-04 14:18:31.722 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-01-04 14:18:31.740 [restartedMain] INFO  c.v.c.ConversationApplication - Started ConversationApplication in 4.765 seconds (process running for 5.274)
+2026-01-04 14:18:31.904 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04 14:18:31.904 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-01-04 14:18:31.907 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-01-04 14:18:35.971 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:18:35.972 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:18:35.990 [http-nio-8080-exec-1] INFO  c.v.c.service.SessionService - Created session: fc66f685-4978-4549-af3c-dd50967a99a1 with TTL: 30 minutes
+2026-01-04 14:18:35.990 [http-nio-8080-exec-2] INFO  c.v.c.service.SessionService - Created session: 6ddc4f42-f734-43d1-9ab8-3c910111fb1e with TTL: 30 minutes
+2026-01-04 14:18:36.015 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 6ddc4f42-f734-43d1-9ab8-3c910111fb1e
+2026-01-04 14:18:36.015 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: fc66f685-4978-4549-af3c-dd50967a99a1
+2026-01-04 14:18:36.055 [http-nio-8080-exec-5] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 6ddc4f42-f734-43d1-9ab8-3c910111fb1e
+2026-01-04 14:18:36.058 [http-nio-8080-exec-5] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-04 14:18:38.112 [http-nio-8080-exec-5] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 2054ms
+2026-01-04 14:18:38.117 [http-nio-8080-exec-6] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 6ddc4f42-f734-43d1-9ab8-3c910111fb1e
+2026-01-04 14:18:38.120 [http-nio-8080-exec-6] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-04 14:18:38.893 [http-nio-8080-exec-6] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 773ms
+2026-01-04 14:18:48.852 [http-nio-8080-exec-7] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:18:48.853 [http-nio-8080-exec-7] INFO  c.v.c.service.SessionService - Created session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10 with TTL: 30 minutes
+2026-01-04 14:18:48.854 [http-nio-8080-exec-8] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:18:48.855 [http-nio-8080-exec-8] INFO  c.v.c.service.SessionService - Created session: 33e9ef0b-b74f-41a3-be81-1e47995715b0 with TTL: 30 minutes
+2026-01-04 14:18:48.859 [http-nio-8080-exec-9] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:18:48.860 [http-nio-8080-exec-10] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 33e9ef0b-b74f-41a3-be81-1e47995715b0
+2026-01-04 14:18:48.872 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:18:48.874 [http-nio-8080-exec-2] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-04 14:18:49.682 [http-nio-8080-exec-2] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 808ms
+2026-01-04 14:18:49.686 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:18:49.689 [http-nio-8080-exec-1] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-04 14:18:50.133 [http-nio-8080-exec-1] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 444ms
+2026-01-04 14:19:05.033 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:19:05.037 [http-nio-8080-exec-4] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=3c3ba3b1-f3b6-4048-9b2a-012443962e10, question=1
+2026-01-04 14:19:05.037 [http-nio-8080-exec-4] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 122924 bytes
+2026-01-04 14:19:08.832 [http-nio-8080-exec-4] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'Not at all' (3795ms)
+2026-01-04 14:19:08.833 [http-nio-8080-exec-4] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q1: 'Not at all'
+2026-01-04 14:19:10.823 [http-nio-8080-exec-4] INFO  c.v.c.service.ResponseClassifier - Classification result for Q1: matched=true, category=not confident at all, confidence={:.2f}
+2026-01-04 14:19:10.829 [http-nio-8080-exec-4] INFO  c.v.c.s.QuestionnaireOrchestrator - Response recorded: Q1=not confident at all (confidence={:.2f})
+2026-01-04 14:19:10.837 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:19:10.839 [http-nio-8080-exec-3] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 108)
+2026-01-04 14:19:11.578 [http-nio-8080-exec-3] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 37628 bytes in 738ms
+2026-01-04 14:19:23.229 [http-nio-8080-exec-5] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:19:23.231 [http-nio-8080-exec-5] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=3c3ba3b1-f3b6-4048-9b2a-012443962e10, question=2
+2026-01-04 14:19:23.232 [http-nio-8080-exec-5] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 122924 bytes
+2026-01-04 14:19:27.157 [http-nio-8080-exec-5] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'At least 10 minutes.' (3925ms)
+2026-01-04 14:19:27.158 [http-nio-8080-exec-5] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q2: 'At least 10 minutes.'
+2026-01-04 14:19:28.288 [http-nio-8080-exec-5] INFO  c.v.c.service.ResponseClassifier - Classification result for Q2: matched=false, category=null, confidence={:.2f}
+2026-01-04 14:19:28.289 [http-nio-8080-exec-5] INFO  c.v.c.s.QuestionnaireOrchestrator - Classification failed: matched=false, confidence={:.2f}
+2026-01-04 14:19:28.290 [http-nio-8080-exec-5] INFO  c.v.c.s.QuestionnaireOrchestrator - Retry 1/3 for session=3c3ba3b1-f3b6-4048-9b2a-012443962e10, question=2
+2026-01-04 14:19:43.479 [http-nio-8080-exec-6] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:19:43.482 [http-nio-8080-exec-6] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=3c3ba3b1-f3b6-4048-9b2a-012443962e10, question=2
+2026-01-04 14:19:43.483 [http-nio-8080-exec-6] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 172076 bytes
+2026-01-04 14:19:47.336 [http-nio-8080-exec-6] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'I do 6 days' (3853ms)
+2026-01-04 14:19:47.336 [http-nio-8080-exec-6] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q2: 'I do 6 days'
+2026-01-04 14:19:48.872 [http-nio-8080-exec-6] INFO  c.v.c.service.ResponseClassifier - Classification result for Q2: matched=true, category=6-7, confidence={:.2f}
+2026-01-04 14:19:48.876 [http-nio-8080-exec-6] INFO  c.v.c.s.QuestionnaireOrchestrator - Response recorded: Q2=6-7 (confidence={:.2f})
+2026-01-04 14:19:48.882 [http-nio-8080-exec-7] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:19:48.884 [http-nio-8080-exec-7] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 74)
+2026-01-04 14:19:50.407 [http-nio-8080-exec-7] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 24812 bytes in 1523ms
+2026-01-04 14:20:00.347 [http-nio-8080-exec-9] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:20:00.350 [http-nio-8080-exec-9] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=3c3ba3b1-f3b6-4048-9b2a-012443962e10, question=3
+2026-01-04 14:20:00.351 [http-nio-8080-exec-9] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 139308 bytes
+2026-01-04 14:20:06.074 [http-nio-8080-exec-9] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'Very often' (5723ms)
+2026-01-04 14:20:06.075 [http-nio-8080-exec-9] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q3: 'Very often'
+2026-01-04 14:20:07.406 [http-nio-8080-exec-9] INFO  c.v.c.service.ResponseClassifier - Classification result for Q3: matched=true, category=most of the time, confidence={:.2f}
+2026-01-04 14:20:07.412 [http-nio-8080-exec-9] INFO  c.v.c.s.QuestionnaireOrchestrator - Response recorded: Q3=most of the time (confidence={:.2f})
+2026-01-04 14:20:07.419 [http-nio-8080-exec-10] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:20:07.420 [http-nio-8080-exec-10] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-04 14:20:08.522 [http-nio-8080-exec-10] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 24668 bytes in 1101ms
+2026-01-04 14:20:19.043 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:20:19.045 [http-nio-8080-exec-2] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=3c3ba3b1-f3b6-4048-9b2a-012443962e10, question=4
+2026-01-04 14:20:19.045 [http-nio-8080-exec-2] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 98348 bytes
+2026-01-04 14:20:21.686 [http-nio-8080-exec-2] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'Yes' (2641ms)
+2026-01-04 14:20:21.686 [http-nio-8080-exec-2] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q4: 'Yes'
+2026-01-04 14:20:22.868 [http-nio-8080-exec-2] INFO  c.v.c.service.ResponseClassifier - Classification result for Q4: matched=true, category=yes, confidence={:.2f}
+2026-01-04 14:20:22.874 [http-nio-8080-exec-2] INFO  c.v.c.s.QuestionnaireOrchestrator - Response recorded: Q4=yes (confidence={:.2f})
+2026-01-04 14:21:14.282 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Getting responses for session: 3c3ba3b1-f3b6-4048-9b2a-012443962e10
+2026-01-04 14:22:05.332 [http-nio-8080-exec-5] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:22:05.333 [http-nio-8080-exec-5] INFO  c.v.c.service.SessionService - Created session: c73cf605-1a0a-4b9f-bcaa-8110821629a3 with TTL: 30 minutes
+2026-01-04 14:22:05.333 [http-nio-8080-exec-6] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-04 14:22:05.334 [http-nio-8080-exec-6] INFO  c.v.c.service.SessionService - Created session: b51c9561-b285-4875-b9c7-63f089e9ba7c with TTL: 30 minutes
+2026-01-04 14:22:05.340 [http-nio-8080-exec-8] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: c73cf605-1a0a-4b9f-bcaa-8110821629a3
+2026-01-04 14:22:05.340 [http-nio-8080-exec-7] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: b51c9561-b285-4875-b9c7-63f089e9ba7c
+2026-01-04 14:22:05.349 [http-nio-8080-exec-9] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: b51c9561-b285-4875-b9c7-63f089e9ba7c
+2026-01-04 14:22:05.351 [http-nio-8080-exec-9] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-04 14:22:06.908 [http-nio-8080-exec-9] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 1557ms
+2026-01-04 14:22:06.912 [http-nio-8080-exec-10] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: b51c9561-b285-4875-b9c7-63f089e9ba7c
+2026-01-04 14:22:06.914 [http-nio-8080-exec-10] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-04 14:22:07.727 [http-nio-8080-exec-10] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 813ms
+2026-01-04 14:22:19.156 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: b51c9561-b285-4875-b9c7-63f089e9ba7c
+2026-01-04 14:22:19.158 [http-nio-8080-exec-1] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=b51c9561-b285-4875-b9c7-63f089e9ba7c, question=1
+2026-01-04 14:22:19.158 [http-nio-8080-exec-1] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 65580 bytes
+2026-01-04 14:22:21.679 [http-nio-8080-exec-1] INFO  c.v.c.service.SpeechToTextService - Transcription complete: '' (2521ms)
+2026-01-04 14:22:21.679 [http-nio-8080-exec-1] WARN  c.v.c.s.QuestionnaireOrchestrator - Empty transcript for session=b51c9561-b285-4875-b9c7-63f089e9ba7c
+2026-01-04 14:22:21.680 [http-nio-8080-exec-1] INFO  c.v.c.s.QuestionnaireOrchestrator - Retry 1/3 for session=b51c9561-b285-4875-b9c7-63f089e9ba7c, question=1
+2026-01-04 14:22:38.630 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-04 14:22:38.632 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete

@@ -1,0 +1,2314 @@
+===== ./allcode.txt =====
+
+===== ./java/com/voiceai/conversation/ConversationApplication.java =====
+package com.voiceai.conversation;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ConversationApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ConversationApplication.class, args);
+	}
+
+}
+
+===== ./java/com/voiceai/conversation/config/QuestionnaireConfig.java =====
+package com.voiceai.conversation.config;
+
+import com.voiceai.conversation.model.Question;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Configuration for questionnaire questions.
+ * Questions are defined here for easy modification without code changes.
+ */
+@Configuration
+public class QuestionnaireConfig {
+
+    @Bean
+    public List<Question> questionnaireQuestions() {
+        return Arrays.asList(
+                new Question(
+                        1,
+                        "Over the past week, how confident have you felt in making healthy food choices?",
+                        Arrays.asList(
+                                "very confident",
+                                "somewhat confident",
+                                "neutral",
+                                "not very confident",
+                                "not confident at all"
+                        )
+                ),
+                new Question(
+                        2,
+                        "In the past week, how many days did you engage in at least 20 minutes of moderate activity, such as walking?",
+                        Arrays.asList("0", "1-3", "4-5", "6-7")
+                ),
+                new Question(
+                        3,
+                        "Over the past week, how often have you felt physically well and energized?",
+                        Arrays.asList(
+                                "always",
+                                "most of the time",
+                                "sometimes",
+                                "rarely",
+                                "never"
+                        )
+                ),
+                new Question(
+                        4,
+                        "In the past week, have you taken all of your prescribed medication as directed?",
+                        Arrays.asList(
+                                "yes",
+                                "no",
+                                "sometimes",
+                                "i dont take medication",
+                                "i dont have access to my medication"
+                        )
+                )
+        );
+    }
+}
+===== ./java/com/voiceai/conversation/config/SecurityConfig.java =====
+package com.voiceai.conversation.config;
+
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Security configuration including CORS settings for production.
+ */
+@Slf4j
+@Configuration
+public class SecurityConfig {
+
+    @Value("${cors.allowed-origins}")
+    private List<String> allowedOrigins;
+
+    @Value("${cors.max-age-seconds:3600}")
+    private long corsMaxAge;
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        log.info("Configuring CORS for origins: {}", allowedOrigins);
+
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(allowedOrigins);
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("Content-Disposition", "X-Session-Id"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(corsMaxAge);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/api/**", configuration);
+
+        return source;
+    }
+}
+
+===== ./java/com/voiceai/conversation/config/WebConfig.java =====
+package com.voiceai.conversation.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+/**
+ * Web MVC configuration for content negotiation.
+ */
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer
+                .favorParameter(false)
+                .ignoreAcceptHeader(false)
+                .defaultContentType(MediaType.APPLICATION_JSON)
+                .mediaType("json", MediaType.APPLICATION_JSON)
+                .mediaType("mp3", MediaType.parseMediaType("audio/mpeg"));
+    }
+}
+===== ./java/com/voiceai/conversation/config/AwsConfiguration.java =====
+package com.voiceai.conversation.config;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.core.client.config.ClientOverrideConfiguration;
+import software.amazon.awssdk.core.retry.RetryPolicy;
+import software.amazon.awssdk.core.retry.backoff.BackoffStrategy;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient;
+import software.amazon.awssdk.services.polly.PollyClient;
+import software.amazon.awssdk.services.transcribestreaming.TranscribeStreamingAsyncClient;
+
+import java.time.Duration;
+
+/**
+ * AWS service client configuration with production-grade retry and timeout settings.
+ */
+@Slf4j
+@Configuration
+public class AwsConfiguration {
+
+    @Value("${aws.region}")
+    private String awsRegion;
+
+    @Value("${aws.api-timeout-seconds:30}")
+    private int apiTimeoutSeconds;
+
+    @Value("${aws.max-retries:3}")
+    private int maxRetries;
+
+    /**
+     * Creates Amazon Polly client with retry policy and timeouts.
+     */
+    @Bean
+    public PollyClient pollyClient() {
+        log.info("Initializing Polly client for region: {}", awsRegion);
+
+        return PollyClient.builder()
+                .region(Region.of(awsRegion))
+                .credentialsProvider(DefaultCredentialsProvider.create())
+                .overrideConfiguration(createClientConfig())
+                .build();
+    }
+
+    /**
+     * Creates Amazon Transcribe Streaming async client with retry policy.
+     */
+    @Bean
+    public TranscribeStreamingAsyncClient transcribeClient() {
+        log.info("Initializing Transcribe Streaming client for region: {}", awsRegion);
+
+        return TranscribeStreamingAsyncClient.builder()
+                .region(Region.of(awsRegion))
+                .credentialsProvider(DefaultCredentialsProvider.create())
+                .overrideConfiguration(createClientConfig())
+                .build();
+    }
+
+    /**
+     * Creates Amazon Bedrock Runtime client for Claude model access.
+     */
+    @Bean
+    public BedrockRuntimeClient bedrockRuntimeClient() {
+        log.info("Initializing Bedrock Runtime client for region: {}", awsRegion);
+
+        return BedrockRuntimeClient.builder()
+                .region(Region.of(awsRegion))
+                .credentialsProvider(DefaultCredentialsProvider.create())
+                .overrideConfiguration(createClientConfig())
+                .build();
+    }
+
+    /**
+     * Creates standard client configuration with retry policy and timeouts.
+     */
+    private ClientOverrideConfiguration createClientConfig() {
+        return ClientOverrideConfiguration.builder()
+                .apiCallTimeout(Duration.ofSeconds(apiTimeoutSeconds))
+                .apiCallAttemptTimeout(Duration.ofSeconds(apiTimeoutSeconds / 2))
+                .retryPolicy(RetryPolicy.builder()
+                        .numRetries(maxRetries)
+                        .backoffStrategy(BackoffStrategy.defaultStrategy())
+                        .build())
+                .build();
+    }
+}
+===== ./java/com/voiceai/conversation/config/exception/ServiceUnavailableException.java =====
+package com.voiceai.conversation.config.exception;
+
+public class ServiceUnavailableException extends RuntimeException {
+    public ServiceUnavailableException(String service, Throwable cause) {
+        super("Service unavailable: " + service, cause);
+    }
+}
+
+
+===== ./java/com/voiceai/conversation/config/exception/SessionNotFoundException.java =====
+package com.voiceai.conversation.config.exception;
+
+public class SessionNotFoundException extends RuntimeException {
+    public SessionNotFoundException(String sessionId) {
+        super("Session not found: " + sessionId);
+    }
+}
+===== ./java/com/voiceai/conversation/config/exception/ClassificationException.java =====
+package com.voiceai.conversation.config.exception;
+
+public class ClassificationException extends RuntimeException {
+    public ClassificationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+===== ./java/com/voiceai/conversation/config/exception/TranscriptionException.java =====
+package com.voiceai.conversation.config.exception;
+
+public class TranscriptionException extends RuntimeException {
+    public TranscriptionException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+===== ./java/com/voiceai/conversation/config/exception/GlobalExceptionHandler.java =====
+package com.voiceai.conversation.config.exception;
+
+import com.voiceai.conversation.model.dto.ErrorResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+import java.time.Instant;
+
+/**
+ * Global exception handler for consistent error responses.
+ */
+@Slf4j
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(SessionNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleSessionNotFound(
+            SessionNotFoundException ex, WebRequest request) {
+        log.warn("Session not found: {}", ex.getMessage());
+        return buildErrorResponse(
+                "SESSION_NOT_FOUND",
+                ex.getMessage(),
+                request.getDescription(false),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
+    @ExceptionHandler(InvalidAudioException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidAudio(
+            InvalidAudioException ex, WebRequest request) {
+        log.warn("Invalid audio: {}", ex.getMessage());
+        return buildErrorResponse(
+                "INVALID_AUDIO",
+                ex.getMessage(),
+                request.getDescription(false),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(ServiceUnavailableException.class)
+    public ResponseEntity<ErrorResponse> handleServiceUnavailable(
+            ServiceUnavailableException ex, WebRequest request) {
+        log.error("Service unavailable: {}", ex.getMessage(), ex);
+        return buildErrorResponse(
+                "SERVICE_UNAVAILABLE",
+                "The service is temporarily unavailable. Please try again later.",
+                request.getDescription(false),
+                HttpStatus.SERVICE_UNAVAILABLE
+        );
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ErrorResponse> handleMaxUploadSize(
+            MaxUploadSizeExceededException ex, WebRequest request) {
+        log.warn("Upload size exceeded: {}", ex.getMessage());
+        return buildErrorResponse(
+                "FILE_TOO_LARGE",
+                "Audio file is too large. Maximum size is 10MB.",
+                request.getDescription(false),
+                HttpStatus.PAYLOAD_TOO_LARGE
+        );
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(
+            Exception ex, WebRequest request) {
+        log.error("Unexpected error: {}", ex.getMessage(), ex);
+        return buildErrorResponse(
+                "INTERNAL_ERROR",
+                "An unexpected error occurred. Please try again.",
+                request.getDescription(false),
+                HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(
+            String error, String message, String path, HttpStatus status) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                error,
+                message,
+                Instant.now().toString(),
+                path.replace("uri=", "")
+        );
+        return ResponseEntity.status(status).body(errorResponse);
+    }
+}
+
+===== ./java/com/voiceai/conversation/config/exception/InvalidAudioException.java =====
+package com.voiceai.conversation.config.exception;
+
+public class InvalidAudioException extends RuntimeException {
+    public InvalidAudioException(String message) {
+        super(message);
+    }
+
+    public InvalidAudioException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+
+===== ./java/com/voiceai/conversation/config/WebCorsConfig.java =====
+package com.voiceai.conversation.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebCorsConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/api/**")
+                .allowedOrigins(
+                        "*"
+                )
+                .allowedMethods(
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "OPTIONS"
+                )
+                .allowedHeaders("*")
+                .exposedHeaders(
+                        "Content-Disposition" // needed for MP3 response
+                )
+                .allowCredentials(false)
+                .maxAge(3600);
+    }
+}
+
+===== ./java/com/voiceai/conversation/config/RedisConfig.java =====
+package com.voiceai.conversation.config;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+
+/**
+ * Redis configuration for distributed session management.
+ * Supports horizontal scaling by storing session data in Redis.
+ */
+@Slf4j
+@Configuration
+public class RedisConfig {
+
+    @Value("${spring.data.redis.host}")
+    private String redisHost;
+
+    @Value("${spring.data.redis.port}")
+    private int redisPort;
+
+    @Value("${spring.data.redis.password:#{null}}")
+    private String redisPassword;
+
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory() {
+        log.info("Configuring Redis connection to {}:{}", redisHost, redisPort);
+
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+        config.setHostName(redisHost);
+        config.setPort(redisPort);
+
+        if (redisPassword != null && !redisPassword.isEmpty()) {
+            config.setPassword(redisPassword);
+        }
+
+        return new LettuceConnectionFactory(config);
+    }
+
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory);
+
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
+        objectMapper.activateDefaultTyping(
+                BasicPolymorphicTypeValidator.builder()
+                        .allowIfSubType(Object.class)
+                        .build(),
+                ObjectMapper.DefaultTyping.NON_FINAL,
+                JsonTypeInfo.As.PROPERTY
+        );
+
+        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
+
+
+        template.setValueSerializer(serializer);
+        template.setHashValueSerializer(serializer);
+
+        template.afterPropertiesSet();
+
+        log.info("RedisTemplate configured with polymorphic JSON serialization");
+
+        return template;
+    }
+}
+===== ./java/com/voiceai/conversation/controller/HealthCheckController.java =====
+package com.voiceai.conversation.controller;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient;
+import software.amazon.awssdk.services.polly.PollyClient;
+import software.amazon.awssdk.services.transcribestreaming.TranscribeStreamingAsyncClient;
+
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Health check endpoints for load balancer and monitoring.
+ */
+@Slf4j
+@RestController
+@RequestMapping("/health")
+@RequiredArgsConstructor
+public class HealthCheckController {
+
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final PollyClient pollyClient;
+    private final TranscribeStreamingAsyncClient transcribeClient;
+    private final BedrockRuntimeClient bedrockClient;
+
+    @GetMapping
+    public ResponseEntity<HealthStatus> healthCheck() {
+        return ResponseEntity.ok(new HealthStatus(
+                "UP",
+                Instant.now().toString(),
+                "Voice Questionnaire System"
+        ));
+    }
+
+    @GetMapping("/ready")
+    public ResponseEntity<ReadinessStatus> readinessCheck() {
+        Map<String, Boolean> dependencies = new HashMap<>();
+        boolean allHealthy = true;
+
+        try {
+            redisTemplate.hasKey("health-check");
+            dependencies.put("redis", true);
+        } catch (Exception e) {
+            log.error("Redis health check failed", e);
+            dependencies.put("redis", false);
+            allHealthy = false;
+        }
+
+        try {
+            pollyClient.describeVoices();
+            dependencies.put("polly", true);
+        } catch (Exception e) {
+            log.error("Polly health check failed", e);
+            dependencies.put("polly", false);
+            allHealthy = false;
+        }
+
+        dependencies.put("transcribe", true);
+        dependencies.put("bedrock", true);
+
+        ReadinessStatus status = new ReadinessStatus(
+                allHealthy ? "READY" : "NOT_READY",
+                dependencies
+        );
+
+        return allHealthy ?
+                ResponseEntity.ok(status) :
+                ResponseEntity.status(503).body(status);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class HealthStatus {
+        private String status;
+        private String timestamp;
+        private String service;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class ReadinessStatus {
+        private String status;
+        private Map<String, Boolean> dependencies;
+    }
+}
+
+===== ./java/com/voiceai/conversation/controller/QuestionnaireController.java =====
+package com.voiceai.conversation.controller;
+
+
+import com.voiceai.conversation.model.Question;
+import com.voiceai.conversation.model.Session;
+import com.voiceai.conversation.model.dto.QuestionResponse;
+import com.voiceai.conversation.model.dto.ResponseSubmissionResult;
+import com.voiceai.conversation.model.dto.SessionStartResponse;
+import com.voiceai.conversation.service.QuestionnaireOrchestrator;
+import com.voiceai.conversation.service.SessionService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * REST API controller for voice questionnaire operations.
+ */
+@Slf4j
+@RestController
+@RequestMapping("/api/questionnaire")
+@RequiredArgsConstructor
+public class QuestionnaireController {
+
+    private final QuestionnaireOrchestrator orchestrator;
+    private final SessionService sessionService;
+    private final List<Question> questions;
+
+    @Value("${session.timeout-minutes:30}")
+    private long sessionTimeoutMinutes;
+
+    @PostMapping("/start")
+    public ResponseEntity<SessionStartResponse> startSession() {
+        log.info("Starting new questionnaire session");
+        String sessionId = sessionService.createSession();
+
+        SessionStartResponse response = new SessionStartResponse(
+                sessionId,
+                "Session started successfully",
+                sessionTimeoutMinutes * 60
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/question/{sessionId}")
+    public ResponseEntity<QuestionResponse> getCurrentQuestion(@PathVariable String sessionId) {
+        log.info("Getting current question for session: {}", sessionId);
+
+        Question question = orchestrator.getCurrentQuestion(sessionId);
+
+        if (question == null) {
+            return ResponseEntity.ok(new QuestionResponse(
+                    null,
+                    "Questionnaire completed",
+                    true,
+                    questions.size(),
+                    questions.size()
+            ));
+        }
+
+        Session session = sessionService.getSession(sessionId);
+
+        return ResponseEntity.ok(new QuestionResponse(
+                question,
+                "Current question retrieved",
+                false,
+                questions.size(),
+                session.getCurrentQuestionIndex() + 1
+        ));
+    }
+
+    @GetMapping("/question/{sessionId}/audio")
+    public ResponseEntity<byte[]> getQuestionAudio(@PathVariable String sessionId) {
+        log.info("Getting question audio for session: {}", sessionId);
+
+        byte[] audioData = orchestrator.getQuestionAudio(sessionId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("audio/mpeg"));
+        headers.setContentLength(audioData.length);
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=question.mp3");
+
+        return new ResponseEntity<>(audioData, headers, HttpStatus.OK);
+    }
+
+    @PostMapping("/response/{sessionId}")
+    public ResponseEntity<ResponseSubmissionResult> processVoiceResponse(
+            @PathVariable String sessionId,
+            @RequestParam("audio") MultipartFile audioFile) throws IOException {
+
+        log.info("Processing voice response for session: {}", sessionId);
+
+        if (audioFile.isEmpty()) {
+            return ResponseEntity.badRequest().body(
+                    new ResponseSubmissionResult(
+                            "FAILED",
+                            "No audio file provided",
+                            null,
+                            null,
+                            false,
+                            0,
+                            0.0
+                    )
+            );
+        }
+
+        try {
+            byte[] audioData = audioFile.getBytes();
+            QuestionnaireOrchestrator.ProcessingResult result =
+                    orchestrator.processVoiceResponse(sessionId, audioData);
+
+            return ResponseEntity.ok(mapToDto(result));
+
+        } catch (Exception e) {
+            log.error("Error processing response: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @GetMapping("/responses/{sessionId}")
+    public ResponseEntity<Map<Integer, String>> getSessionResponses(@PathVariable String sessionId) {
+        log.info("Getting responses for session: {}", sessionId);
+
+        Session session = sessionService.getSession(sessionId);
+        Map<Integer, String> responses = session.getResponses().entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue().getClassifiedCategory()
+                ));
+
+        return ResponseEntity.ok(responses);
+    }
+
+    private ResponseSubmissionResult mapToDto(QuestionnaireOrchestrator.ProcessingResult result) {
+        return new ResponseSubmissionResult(
+                result.getStatus().name(),
+                result.getMessage(),
+                result.getTranscript(),
+                result.getNextQuestion(),
+                result.getStatus() == QuestionnaireOrchestrator.ProcessingStatus.COMPLETED,
+                result.getRetriesRemaining(),
+                result.getClassification() != null ? result.getClassification().getConfidence() : 0.0
+        );
+    }
+}
+===== ./java/com/voiceai/conversation/service/MetricsService.java =====
+package com.voiceai.conversation.service;
+
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Service for recording application metrics.
+ * Integrates with Micrometer for Prometheus/Grafana monitoring.
+ */
+@Slf4j
+@Service
+public class MetricsService {
+
+    private final Counter ttsSuccessCounter;
+    private final Counter ttsErrorCounter;
+    private final Counter sttSuccessCounter;
+    private final Counter sttErrorCounter;
+    private final Counter classificationSuccessCounter;
+    private final Counter classificationErrorCounter;
+    private final Timer ttsLatencyTimer;
+    private final Timer sttLatencyTimer;
+    private final Timer classificationLatencyTimer;
+
+    public MetricsService(MeterRegistry registry) {
+        this.ttsSuccessCounter = Counter.builder("questionnaire.tts.success")
+                .description("Successful text-to-speech conversions")
+                .register(registry);
+
+        this.ttsErrorCounter = Counter.builder("questionnaire.tts.error")
+                .description("Failed text-to-speech conversions")
+                .register(registry);
+
+        this.sttSuccessCounter = Counter.builder("questionnaire.stt.success")
+                .description("Successful speech-to-text transcriptions")
+                .register(registry);
+
+        this.sttErrorCounter = Counter.builder("questionnaire.stt.error")
+                .description("Failed speech-to-text transcriptions")
+                .register(registry);
+
+        this.classificationSuccessCounter = Counter.builder("questionnaire.classification.success")
+                .description("Successful response classifications")
+                .register(registry);
+
+        this.classificationErrorCounter = Counter.builder("questionnaire.classification.error")
+                .description("Failed response classifications")
+                .register(registry);
+
+        this.ttsLatencyTimer = Timer.builder("questionnaire.tts.latency")
+                .description("Text-to-speech latency in milliseconds")
+                .register(registry);
+
+        this.sttLatencyTimer = Timer.builder("questionnaire.stt.latency")
+                .description("Speech-to-text latency in milliseconds")
+                .register(registry);
+
+        this.classificationLatencyTimer = Timer.builder("questionnaire.classification.latency")
+                .description("Classification latency in milliseconds")
+                .register(registry);
+    }
+
+    public void incrementTtsSuccess() {
+        ttsSuccessCounter.increment();
+    }
+
+    public void incrementTtsError() {
+        ttsErrorCounter.increment();
+    }
+
+    public void incrementSttSuccess() {
+        sttSuccessCounter.increment();
+    }
+
+    public void incrementSttError() {
+        sttErrorCounter.increment();
+    }
+
+    public void incrementClassificationSuccess() {
+        classificationSuccessCounter.increment();
+    }
+
+    public void incrementClassificationError() {
+        classificationErrorCounter.increment();
+    }
+
+    public void recordTtsLatency(long milliseconds) {
+        ttsLatencyTimer.record(milliseconds, TimeUnit.MILLISECONDS);
+    }
+
+    public void recordSttLatency(long milliseconds) {
+        sttLatencyTimer.record(milliseconds, TimeUnit.MILLISECONDS);
+    }
+
+    public void recordClassificationLatency(long milliseconds) {
+        classificationLatencyTimer.record(milliseconds, TimeUnit.MILLISECONDS);
+    }
+}
+
+===== ./java/com/voiceai/conversation/service/ResponseClassifier.java =====
+package com.voiceai.conversation.service;
+
+import com.voiceai.conversation.config.exception.ClassificationException;
+import com.voiceai.conversation.config.exception.ServiceUnavailableException;
+import com.voiceai.conversation.model.ClassificationResult;
+import com.voiceai.conversation.model.Question;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import software.amazon.awssdk.core.SdkBytes;
+import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient;
+import software.amazon.awssdk.services.bedrockruntime.model.InvokeModelRequest;
+import software.amazon.awssdk.services.bedrockruntime.model.InvokeModelResponse;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Service for classifying user responses using Amazon Bedrock (Claude).
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class ResponseClassifier {
+
+    private final BedrockRuntimeClient bedrockClient;
+    private final MetricsService metricsService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Value("${aws.bedrock.model-id}")
+    private String modelId;
+
+    @Value("${aws.bedrock.max-tokens:500}")
+    private int maxTokens;
+
+    @Value("${aws.bedrock.temperature:0.3}")
+    private double temperature;
+
+    public ClassificationResult classifyResponse(Question question, String userResponse) {
+        if (question == null || userResponse == null || userResponse.trim().isEmpty()) {
+            throw new IllegalArgumentException("Question and response cannot be null or empty");
+        }
+
+        log.info("Classifying response for Q{}: '{}'", question.getId(), userResponse);
+        long startTime = System.currentTimeMillis();
+
+        try {
+            String prompt = buildClassificationPrompt(question, userResponse);
+            String response = invokeBedrockModel(prompt);
+            ClassificationResult result = parseClassificationResult(response);
+
+            long duration = System.currentTimeMillis() - startTime;
+            metricsService.recordClassificationLatency(duration);
+            metricsService.incrementClassificationSuccess();
+
+            log.info("Classification result for Q{}: matched={}, category={}, confidence={:.2f}",
+                    question.getId(), result.isMatched(), result.getCategory(), result.getConfidence());
+
+            return result;
+
+        } catch (Exception e) {
+            metricsService.incrementClassificationError();
+            log.error("Classification failed for Q{}: {}", question.getId(), e.getMessage(), e);
+            throw new ClassificationException("Failed to classify response", e);
+        }
+    }
+
+    private String buildClassificationPrompt(Question question, String userResponse) {
+        String categoriesStr = String.join(", ", question.getValidCategories());
+
+        return String.format("""
+            You are a health questionnaire response classifier. Your task is to determine if a user's spoken response matches one of the predefined valid categories for a question.
+            
+            Question: "%s"
+            Valid categories: %s
+            User's spoken response: "%s"
+            
+            Classification rules:
+            1. Be flexible with synonyms (e.g., "pretty confident" matches "somewhat confident")
+            2. Handle numbers as words or digits (e.g., "zero days" or "0" both match "0")
+            3. Ignore filler words and minor variations
+            4. If the response clearly maps to a category, set matched=true
+            5. If ambiguous or doesn't match any category, set matched=false
+            
+            Respond with ONLY a JSON object in this exact format (no markdown, no preamble):
+            {"matched": true/false, "category": "exact category string or null", "confidence": 0.0-1.0}
+            
+            Examples:
+            - Response: "I felt quite confident" → {"matched": true, "category": "somewhat confident", "confidence": 0.85}
+            - Response: "zero" → {"matched": true, "category": "0", "confidence": 0.95}
+            - Response: "I don't know" → {"matched": false, "category": null, "confidence": 0.1}
+            """,
+                question.getText(),
+                categoriesStr,
+                userResponse
+        );
+    }
+
+    private String invokeBedrockModel(String prompt) throws Exception {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("anthropic_version", "bedrock-2023-05-31");
+        requestBody.put("max_tokens", maxTokens);
+        requestBody.put("temperature", temperature);
+        requestBody.put("messages", List.of(
+                Map.of("role", "user", "content", prompt)
+        ));
+
+        String requestJson = objectMapper.writeValueAsString(requestBody);
+
+        InvokeModelRequest request = InvokeModelRequest.builder()
+                .modelId(modelId)
+                .body(SdkBytes.fromUtf8String(requestJson))
+                .build();
+
+        log.debug("Invoking Bedrock model: {}", modelId);
+        InvokeModelResponse response = bedrockClient.invokeModel(request);
+
+        String responseBody = response.body().asUtf8String();
+        log.debug("Bedrock response: {}", responseBody);
+
+        @SuppressWarnings("unchecked")
+        Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class);
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> content = (List<Map<String, Object>>) responseMap.get("content");
+
+        if (content == null || content.isEmpty()) {
+            throw new ServiceUnavailableException("Bedrock",
+                    new RuntimeException("Empty response from model"));
+        }
+
+        return (String) content.get(0).get("text");
+    }
+
+    private ClassificationResult parseClassificationResult(String response)
+            throws JsonProcessingException {
+        String cleanJson = extractJson(response);
+        return objectMapper.readValue(cleanJson, ClassificationResult.class);
+    }
+
+    private String extractJson(String response) {
+        String cleaned = response.trim();
+
+        if (cleaned.startsWith("```json")) {
+            cleaned = cleaned.substring(7);
+        } else if (cleaned.startsWith("```")) {
+            cleaned = cleaned.substring(3);
+        }
+
+        if (cleaned.endsWith("```")) {
+            cleaned = cleaned.substring(0, cleaned.length() - 3);
+        }
+
+        int start = cleaned.indexOf('{');
+        int end = cleaned.lastIndexOf('}');
+
+        if (start >= 0 && end > start) {
+            return cleaned.substring(start, end + 1).trim();
+        }
+
+        return cleaned.trim();
+    }
+}
+
+===== ./java/com/voiceai/conversation/service/QuestionnaireOrchestrator.java =====
+package com.voiceai.conversation.service;
+
+import com.voiceai.conversation.model.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * Orchestrates the questionnaire flow including question progression,
+ * retry logic, and response processing.
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class QuestionnaireOrchestrator {
+
+    private final SessionService sessionService;
+    private final SpeechToTextService speechToTextService;
+    private final TextToSpeechService textToSpeechService;
+    private final ResponseClassifier responseClassifier;
+    private final AudioValidator audioValidator;
+    private final List<Question> questions;
+
+    @Value("${questionnaire.max-retries:3}")
+    private int maxRetries;
+
+    @Value("${questionnaire.confidence-threshold:0.6}")
+    private double confidenceThreshold;
+
+    public Question getCurrentQuestion(String sessionId) {
+        Session session = sessionService.getSession(sessionId);
+
+        if (session.getCurrentQuestionIndex() >= questions.size()) {
+            session.complete();
+            sessionService.saveSession(session);
+            return null;
+        }
+
+        return questions.get(session.getCurrentQuestionIndex());
+    }
+
+    public byte[] getQuestionAudio(String sessionId) {
+        Question question = getCurrentQuestion(sessionId);
+        Session session = sessionService.getSession(sessionId);
+
+        String questionText;
+        if (question == null) {
+            questionText = "Thank you for completing the questionnaire. Your responses have been recorded.";
+        } else {
+            questionText = formatQuestionText(question, session.getRetryCount());
+        }
+
+        return textToSpeechService.synthesizeSpeech(questionText);
+    }
+
+    public ProcessingResult processVoiceResponse(String sessionId, byte[] audioData) {
+        audioValidator.validateAudio(audioData);
+
+        Session session = sessionService.getSession(sessionId);
+        Question currentQuestion = getCurrentQuestion(sessionId);
+
+        if (currentQuestion == null) {
+            return ProcessingResult.completed(session);
+        }
+
+        log.info("Processing response for session={}, question={}", sessionId, currentQuestion.getId());
+
+        try {
+            String transcript = speechToTextService.transcribeAudio(audioData);
+
+            if (transcript.isEmpty()) {
+                log.warn("Empty transcript for session={}", sessionId);
+                return handleClassificationFailure(session, currentQuestion, "");
+            }
+
+            ClassificationResult classification = responseClassifier.classifyResponse(
+                    currentQuestion,
+                    transcript
+            );
+
+            if (classification.isValid(confidenceThreshold)) {
+                return handleSuccessfulClassification(session, currentQuestion, classification, transcript);
+            } else {
+                log.info("Classification failed: matched={}, confidence={:.2f}",
+                        classification.isMatched(), classification.getConfidence());
+                return handleClassificationFailure(session, currentQuestion, transcript);
+            }
+
+        } catch (Exception e) {
+            log.error("Error processing response: {}", e.getMessage(), e);
+            return handleClassificationFailure(session, currentQuestion, "");
+        }
+    }
+
+    private ProcessingResult handleSuccessfulClassification(
+            Session session,
+            Question question,
+            ClassificationResult classification,
+            String transcript) {
+
+        UserResponse response = new UserResponse(
+                question.getId(),
+                transcript,
+                classification.getCategory(),
+                classification.getConfidence()
+        );
+
+        session.recordResponse(response);
+        sessionService.saveSession(session);
+
+        Question nextQuestion = getCurrentQuestion(session.getSessionId());
+
+        log.info("Response recorded: Q{}={} (confidence={:.2f})",
+                question.getId(), classification.getCategory(), classification.getConfidence());
+
+        if (nextQuestion == null) {
+            return ProcessingResult.completed(session, classification, transcript);
+        } else {
+            return ProcessingResult.success(session, classification, transcript, nextQuestion);
+        }
+    }
+
+    private ProcessingResult handleClassificationFailure(
+            Session session,
+            Question question,
+            String transcript) {
+
+        session.incrementRetry();
+        sessionService.saveSession(session);
+
+        int retriesRemaining = maxRetries - session.getRetryCount();
+
+        if (session.getRetryCount() >= maxRetries) {
+            log.warn("Max retries exceeded for session={}, question={}",
+                    session.getSessionId(), question.getId());
+            return ProcessingResult.maxRetriesExceeded(session, question, transcript);
+        }
+
+        log.info("Retry {}/{} for session={}, question={}",
+                session.getRetryCount(), maxRetries, session.getSessionId(), question.getId());
+
+        return ProcessingResult.retry(session, question, transcript, retriesRemaining);
+    }
+
+    private String formatQuestionText(Question question, int retryCount) {
+        if (retryCount == 0) {
+            return question.getText();
+        } else if (retryCount == 1) {
+            return "I didn't quite catch that. Let me ask again. " + question.getText();
+        } else {
+            return "Let's try one more time. " + question.getText();
+        }
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class ProcessingResult {
+        private ProcessingStatus status;
+        private Session session;
+        private ClassificationResult classification;
+        private String transcript;
+        private Question nextQuestion;
+        private String message;
+        private int retriesRemaining;
+
+        public static ProcessingResult success(
+                Session session,
+                ClassificationResult classification,
+                String transcript,
+                Question nextQuestion) {
+            return new ProcessingResult(
+                    ProcessingStatus.SUCCESS,
+                    session,
+                    classification,
+                    transcript,
+                    nextQuestion,
+                    "Response recorded successfully",
+                    0
+            );
+        }
+
+        public static ProcessingResult retry(
+                Session session,
+                Question question,
+                String transcript,
+                int retriesRemaining) {
+            return new ProcessingResult(
+                    ProcessingStatus.RETRY,
+                    session,
+                    null,
+                    transcript,
+                    question,
+                    "Please try answering again",
+                    retriesRemaining
+            );
+        }
+
+        public static ProcessingResult maxRetriesExceeded(
+                Session session,
+                Question question,
+                String transcript) {
+            return new ProcessingResult(
+                    ProcessingStatus.MAX_RETRIES_EXCEEDED,
+                    session,
+                    null,
+                    transcript,
+                    question,
+                    "Maximum retry attempts reached for this question",
+                    0
+            );
+        }
+
+        public static ProcessingResult completed(Session session) {
+            return new ProcessingResult(
+                    ProcessingStatus.COMPLETED,
+                    session,
+                    null,
+                    null,
+                    null,
+                    "Questionnaire completed successfully",
+                    0
+            );
+        }
+
+        public static ProcessingResult completed(
+                Session session,
+                ClassificationResult classification,
+                String transcript) {
+            return new ProcessingResult(
+                    ProcessingStatus.COMPLETED,
+                    session,
+                    classification,
+                    transcript,
+                    null,
+                    "Questionnaire completed successfully",
+                    0
+            );
+        }
+    }
+
+    public enum ProcessingStatus {
+        SUCCESS,
+        RETRY,
+        MAX_RETRIES_EXCEEDED,
+        COMPLETED
+    }
+}
+===== ./java/com/voiceai/conversation/service/TextToSpeechService.java =====
+package com.voiceai.conversation.service;
+
+
+import com.voiceai.conversation.config.exception.ServiceUnavailableException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.services.polly.PollyClient;
+import software.amazon.awssdk.services.polly.model.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+/**
+ * Service for text-to-speech synthesis using Amazon Polly.
+ * Includes retry logic and metrics tracking.
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class TextToSpeechService {
+
+    private final PollyClient pollyClient;
+    private final MetricsService metricsService;
+
+    @Value("${aws.polly.voice-id:Joanna}")
+    private String voiceId;
+
+    @Value("${aws.polly.engine:neural}")
+    private String engine;
+
+    public byte[] synthesizeSpeech(String text) {
+        if (text == null || text.trim().isEmpty()) {
+            throw new IllegalArgumentException("Text cannot be empty");
+        }
+
+        log.info("Synthesizing speech for text (length: {})", text.length());
+        long startTime = System.currentTimeMillis();
+
+        try {
+            SynthesizeSpeechRequest request = SynthesizeSpeechRequest.builder()
+                    .text(text)
+                    .voiceId(VoiceId.fromValue(voiceId))
+                    .outputFormat(OutputFormat.MP3)
+                    .engine(Engine.fromValue(engine))
+                    .build();
+
+            ResponseInputStream<SynthesizeSpeechResponse> response =
+                    pollyClient.synthesizeSpeech(request);
+
+            byte[] audioData = readInputStream(response);
+
+            long duration = System.currentTimeMillis() - startTime;
+            metricsService.recordTtsLatency(duration);
+            metricsService.incrementTtsSuccess();
+
+            log.info("Speech synthesis successful: {} bytes in {}ms", audioData.length, duration);
+            return audioData;
+
+        } catch (PollyException e) {
+            metricsService.incrementTtsError();
+            log.error("Polly synthesis failed: {}", e.getMessage(), e);
+            throw new ServiceUnavailableException("Text-to-Speech", e);
+        } catch (IOException e) {
+            metricsService.incrementTtsError();
+            log.error("Failed to read audio stream: {}", e.getMessage(), e);
+            throw new ServiceUnavailableException("Text-to-Speech", e);
+        }
+    }
+
+    private byte[] readInputStream(ResponseInputStream<?> inputStream) throws IOException {
+        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+            byte[] data = new byte[8192];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(data)) != -1) {
+                buffer.write(data, 0, bytesRead);
+            }
+            return buffer.toByteArray();
+        }
+    }
+}
+===== ./java/com/voiceai/conversation/service/TranscribeService.java =====
+package com.voiceai.conversation.service;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+import org.springframework.stereotype.Service;
+import software.amazon.awssdk.core.SdkBytes;
+import software.amazon.awssdk.core.async.SdkPublisher;
+import software.amazon.awssdk.services.transcribestreaming.TranscribeStreamingAsyncClient;
+import software.amazon.awssdk.services.transcribestreaming.model.*;
+
+import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * Service for converting speech to text using Amazon Transcribe Streaming.
+ * Handles real-time audio transcription with streaming API.
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class TranscribeService {
+
+    private final TranscribeStreamingAsyncClient transcribeClient;
+
+    /**
+     * Transcribes audio data to text.
+     *
+     * @param audioData Raw audio data (PCM 16-bit, little-endian, mono, 16 kHz)
+     * @return Transcribed text from the audio
+     * @throws RuntimeException if transcription fails
+     */
+    public String transcribeAudio(byte[] audioData) {
+        log.info("Starting transcription for {} bytes of audio", audioData.length);
+
+        StringBuilder transcriptBuilder = new StringBuilder();
+        CompletableFuture<Void> resultFuture = new CompletableFuture<>();
+
+        try {
+            // Request setup - adjust language/encoding/sample rate as needed
+            StartStreamTranscriptionRequest request = StartStreamTranscriptionRequest.builder()
+                    .languageCode(LanguageCode.EN_US)
+                    .mediaEncoding(MediaEncoding.PCM)
+                    .mediaSampleRateHertz(16000)
+                    .build();
+
+            // Response handler collects transcript events
+            StartStreamTranscriptionResponseHandler responseHandler =
+                    StartStreamTranscriptionResponseHandler.builder()
+                            .onResponse(r -> log.debug("Received initial response"))
+                            .onError(e -> {
+                                log.error("Transcription error: {}", e.getMessage(), e);
+                                resultFuture.completeExceptionally(e);
+                            })
+                            .onComplete(() -> {
+                                log.info("Transcription completed");
+                                resultFuture.complete(null);
+                            })
+                            .subscriber(event -> {
+                                if (event instanceof TranscriptEvent) {
+                                    TranscriptEvent transcriptEvent = (TranscriptEvent) event;
+                                    transcriptEvent.transcript().results().forEach(result -> {
+                                        if (!result.isPartial()) {
+                                            result.alternatives().forEach(alternative -> {
+                                                String transcript = alternative.transcript();
+                                                if (transcript != null && !transcript.trim().isEmpty()) {
+                                                    transcriptBuilder.append(transcript).append(" ");
+                                                    log.debug("Transcript fragment: {}", transcript);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            })
+                            .build();
+
+            // Publisher that streams audioData in chunks as SDK AudioEvent objects
+            final int CHUNK_SIZE = 3200; // ~100ms of 16kHz 16-bit mono audio (adjust if needed)
+            SdkPublisher<AudioStream> audioStreamPublisher = new SdkPublisher<AudioStream>() {
+                @Override
+                public void subscribe(Subscriber<? super AudioStream> subscriber) {
+                    subscriber.onSubscribe(new Subscription() {
+                        volatile boolean cancelled = false;
+
+                        @Override
+                        public void request(long n) {
+                            if (cancelled) {
+                                return;
+                            }
+                            try {
+                                int offset = 0;
+                                while (offset < audioData.length && !cancelled) {
+                                    int len = Math.min(CHUNK_SIZE, audioData.length - offset);
+                                    byte[] chunk = Arrays.copyOfRange(audioData, offset, offset + len);
+                                    AudioEvent audioEvent = AudioEvent.builder()
+                                            .audioChunk(SdkBytes.fromByteArray(chunk))
+                                            .build();
+                                    subscriber.onNext(audioEvent);
+                                    offset += len;
+                                }
+                                if (!cancelled) {
+                                    subscriber.onComplete();
+                                }
+                            } catch (Throwable t) {
+                                subscriber.onError(t);
+                            }
+                        }
+
+                        @Override
+                        public void cancel() {
+                            cancelled = true;
+                        }
+                    });
+                }
+            };
+
+            // Start transcription: streams audio and uses the response handler
+            transcribeClient.startStreamTranscription(request, audioStreamPublisher, responseHandler);
+
+            // Wait for transcription to complete (tunable timeout)
+            resultFuture.get(60, TimeUnit.SECONDS);
+
+            String finalTranscript = transcriptBuilder.toString().trim();
+            log.info("Transcription complete: '{}'", finalTranscript);
+            return finalTranscript;
+
+        } catch (Exception e) {
+            log.error("Transcription failed: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to transcribe audio: " + e.getMessage(), e);
+        }
+    }
+}
+===== ./java/com/voiceai/conversation/service/SessionService.java =====
+package com.voiceai.conversation.service;
+
+
+import com.voiceai.conversation.config.exception.SessionNotFoundException;
+import com.voiceai.conversation.model.Session;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.util.UUID;
+
+/**
+ * Service for managing questionnaire sessions in Redis.
+ * Provides session lifecycle management with TTL support.
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class SessionService {
+
+    private static final String SESSION_KEY_PREFIX = "questionnaire:session:";
+
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    @Value("${session.timeout-minutes:30}")
+    private long sessionTimeoutMinutes;
+
+    public String createSession() {
+        String sessionId = UUID.randomUUID().toString();
+        Session session = new Session(sessionId);
+
+        String key = buildKey(sessionId);
+        redisTemplate.opsForValue().set(
+                key,
+                session,
+                Duration.ofMinutes(sessionTimeoutMinutes)
+        );
+
+        log.info("Created session: {} with TTL: {} minutes", sessionId, sessionTimeoutMinutes);
+        return sessionId;
+    }
+
+    public Session getSession(String sessionId) {
+        String key = buildKey(sessionId);
+        Session session = (Session) redisTemplate.opsForValue().get(key);
+
+        if (session == null) {
+            log.warn("Session not found or expired: {}", sessionId);
+            throw new SessionNotFoundException(sessionId);
+        }
+
+        return session;
+    }
+
+    public void saveSession(Session session) {
+        String key = buildKey(session.getSessionId());
+        redisTemplate.opsForValue().set(
+                key,
+                session,
+                Duration.ofMinutes(sessionTimeoutMinutes)
+        );
+
+        log.debug("Saved session: {}", session.getSessionId());
+    }
+
+    public void deleteSession(String sessionId) {
+        String key = buildKey(sessionId);
+        Boolean deleted = redisTemplate.delete(key);
+
+        if (Boolean.TRUE.equals(deleted)) {
+            log.info("Deleted session: {}", sessionId);
+        } else {
+            log.warn("Failed to delete session (may not exist): {}", sessionId);
+        }
+    }
+
+    public boolean sessionExists(String sessionId) {
+        String key = buildKey(sessionId);
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
+    }
+
+    public void extendSession(String sessionId) {
+        String key = buildKey(sessionId);
+        redisTemplate.expire(key, Duration.ofMinutes(sessionTimeoutMinutes));
+        log.debug("Extended session TTL: {}", sessionId);
+    }
+
+    private String buildKey(String sessionId) {
+        return SESSION_KEY_PREFIX + sessionId;
+    }
+}
+===== ./java/com/voiceai/conversation/service/AudioValidator.java =====
+package com.voiceai.conversation.service;
+
+
+import com.voiceai.conversation.config.exception.InvalidAudioException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+/**
+ * Service for validating audio input.
+ */
+@Slf4j
+@Service
+public class AudioValidator {
+
+    @Value("${audio.max-size-bytes:10485760}")
+    private long maxAudioSizeBytes;
+
+    @Value("${audio.min-size-bytes:1000}")
+    private long minAudioSizeBytes;
+
+    private static final byte[] WAV_HEADER = new byte[]{'R', 'I', 'F', 'F'};
+    private static final byte[] MP3_HEADER_1 = new byte[]{(byte) 0xFF, (byte) 0xFB};
+    private static final byte[] MP3_HEADER_2 = new byte[]{(byte) 0xFF, (byte) 0xF3};
+    private static final byte[] MP3_HEADER_3 = new byte[]{(byte) 0xFF, (byte) 0xF2};
+
+    public void validateAudio(byte[] audioData) {
+        if (audioData == null || audioData.length == 0) {
+            throw new InvalidAudioException("Audio data is empty");
+        }
+
+        if (audioData.length < minAudioSizeBytes) {
+            throw new InvalidAudioException(
+                    String.format("Audio too short: %d bytes (minimum: %d bytes)",
+                            audioData.length, minAudioSizeBytes)
+            );
+        }
+
+        if (audioData.length > maxAudioSizeBytes) {
+            throw new InvalidAudioException(
+                    String.format("Audio too large: %d bytes (maximum: %d bytes)",
+                            audioData.length, maxAudioSizeBytes)
+            );
+        }
+
+        if (!isValidAudioFormat(audioData)) {
+            throw new InvalidAudioException("Unsupported audio format. Please use WAV or MP3.");
+        }
+
+        log.debug("Audio validation passed: {} bytes", audioData.length);
+    }
+
+    private boolean isValidAudioFormat(byte[] data) {
+        if (data.length < 4) {
+            return false;
+        }
+
+        return hasWavHeader(data) || hasMp3Header(data);
+    }
+
+    private boolean hasWavHeader(byte[] data) {
+        if (data.length < WAV_HEADER.length) {
+            return false;
+        }
+
+        for (int i = 0; i < WAV_HEADER.length; i++) {
+            if (data[i] != WAV_HEADER[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasMp3Header(byte[] data) {
+        if (data.length < 2) {
+            return false;
+        }
+
+        return matchesHeader(data, MP3_HEADER_1) ||
+                matchesHeader(data, MP3_HEADER_2) ||
+                matchesHeader(data, MP3_HEADER_3);
+    }
+
+    private boolean matchesHeader(byte[] data, byte[] header) {
+        for (int i = 0; i < header.length; i++) {
+            if (data[i] != header[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+===== ./java/com/voiceai/conversation/service/SpeechToTextService.java =====
+package com.voiceai.conversation.service;
+
+
+import com.voiceai.conversation.config.exception.ServiceUnavailableException;
+import com.voiceai.conversation.config.exception.TranscriptionException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+import org.springframework.stereotype.Service;
+import software.amazon.awssdk.core.SdkBytes;
+import software.amazon.awssdk.core.async.SdkPublisher;
+import software.amazon.awssdk.services.transcribestreaming.TranscribeStreamingAsyncClient;
+import software.amazon.awssdk.services.transcribestreaming.model.*;
+
+import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+/**
+ * Service for speech-to-text transcription using Amazon Transcribe Streaming.
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class SpeechToTextService {
+
+    private static final int CHUNK_SIZE = 3200;
+    private static final int TRANSCRIPTION_TIMEOUT_SECONDS = 60;
+
+    private final TranscribeStreamingAsyncClient transcribeClient;
+    private final MetricsService metricsService;
+
+    public String transcribeAudio(byte[] audioData) {
+        if (audioData == null || audioData.length == 0) {
+            throw new IllegalArgumentException("Audio data cannot be empty");
+        }
+
+        log.info("Starting transcription for {} bytes", audioData.length);
+        long startTime = System.currentTimeMillis();
+
+        StringBuilder transcriptBuilder = new StringBuilder();
+        CompletableFuture<Void> resultFuture = new CompletableFuture<>();
+
+        try {
+            StartStreamTranscriptionRequest request = StartStreamTranscriptionRequest.builder()
+                    .languageCode(LanguageCode.EN_US)
+                    .mediaEncoding(MediaEncoding.PCM)
+                    .mediaSampleRateHertz(16000)
+                    .build();
+
+            StartStreamTranscriptionResponseHandler responseHandler =
+                    createResponseHandler(transcriptBuilder, resultFuture);
+
+            SdkPublisher<AudioStream> audioPublisher = createAudioPublisher(audioData);
+
+            transcribeClient.startStreamTranscription(request, audioPublisher, responseHandler);
+
+            resultFuture.get(TRANSCRIPTION_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+
+            String transcript = transcriptBuilder.toString().trim();
+            long duration = System.currentTimeMillis() - startTime;
+
+            metricsService.recordSttLatency(duration);
+            metricsService.incrementSttSuccess();
+
+            log.info("Transcription complete: '{}' ({}ms)", transcript, duration);
+            return transcript;
+
+        } catch (TimeoutException e) {
+            metricsService.incrementSttError();
+            log.error("Transcription timeout after {}s", TRANSCRIPTION_TIMEOUT_SECONDS);
+            throw new TranscriptionException("Transcription timeout", e);
+        } catch (Exception e) {
+            metricsService.incrementSttError();
+            log.error("Transcription failed: {}", e.getMessage(), e);
+            throw new ServiceUnavailableException("Speech-to-Text", e);
+        }
+    }
+
+    private StartStreamTranscriptionResponseHandler createResponseHandler(
+            StringBuilder transcriptBuilder,
+            CompletableFuture<Void> resultFuture) {
+
+        return StartStreamTranscriptionResponseHandler.builder()
+                .onResponse(r -> log.debug("Transcription started"))
+                .onError(e -> {
+                    log.error("Transcription error: {}", e.getMessage());
+                    resultFuture.completeExceptionally(e);
+                })
+                .onComplete(() -> {
+                    log.debug("Transcription stream completed");
+                    resultFuture.complete(null);
+                })
+                .subscriber(event -> handleTranscriptEvent(event, transcriptBuilder))
+                .build();
+    }
+
+    private void handleTranscriptEvent(TranscriptResultStream event, StringBuilder builder) {
+        if (event instanceof TranscriptEvent) {
+            TranscriptEvent transcriptEvent = (TranscriptEvent) event;
+            transcriptEvent.transcript().results().forEach(result -> {
+                if (!result.isPartial()) {
+                    result.alternatives().forEach(alternative -> {
+                        String text = alternative.transcript();
+                        if (text != null && !text.trim().isEmpty()) {
+                            builder.append(text).append(" ");
+                            log.debug("Transcript fragment: {}", text);
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    private SdkPublisher<AudioStream> createAudioPublisher(byte[] audioData) {
+        return new SdkPublisher<AudioStream>() {
+            @Override
+            public void subscribe(Subscriber<? super AudioStream> subscriber) {
+                subscriber.onSubscribe(new Subscription() {
+                    private volatile boolean cancelled = false;
+
+                    @Override
+                    public void request(long n) {
+                        if (cancelled) return;
+
+                        try {
+                            streamAudioChunks(subscriber);
+                            if (!cancelled) {
+                                subscriber.onComplete();
+                            }
+                        } catch (Throwable t) {
+                            subscriber.onError(t);
+                        }
+                    }
+
+                    @Override
+                    public void cancel() {
+                        cancelled = true;
+                    }
+
+                    private void streamAudioChunks(Subscriber<? super AudioStream> subscriber) {
+                        int offset = 0;
+                        while (offset < audioData.length && !cancelled) {
+                            int length = Math.min(CHUNK_SIZE, audioData.length - offset);
+                            byte[] chunk = Arrays.copyOfRange(audioData, offset, offset + length);
+
+                            AudioEvent audioEvent = AudioEvent.builder()
+                                    .audioChunk(SdkBytes.fromByteArray(chunk))
+                                    .build();
+
+                            subscriber.onNext(audioEvent);
+                            offset += length;
+                        }
+                    }
+                });
+            }
+        };
+    }
+}
+
+===== ./java/com/voiceai/conversation/model/ClassificationResult.java =====
+package com.voiceai.conversation.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * Result of classifying a user response via LLM.
+ * Matches the JSON format returned by Claude.
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ClassificationResult {
+
+    @JsonProperty("matched")
+    private boolean matched;
+
+    @JsonProperty("category")
+    private String category;
+
+    @JsonProperty("confidence")
+    private double confidence;
+
+    public boolean isValid(double minConfidence) {
+        return matched
+                && category != null
+                && !category.trim().isEmpty()
+                && confidence >= minConfidence;
+    }
+}
+===== ./java/com/voiceai/conversation/model/Session.java =====
+package com.voiceai.conversation.model;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Represents a questionnaire session with complete state tracking.
+ * Serializable for Redis storage.
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Session implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private String sessionId;
+    private int currentQuestionIndex;
+    private int retryCount;
+    private Map<Integer, UserResponse> responses;
+    private List<String> transcriptHistory;
+    private Instant createdAt;
+    private Instant lastModifiedAt;
+    private SessionStatus status;
+
+    public Session(String sessionId) {
+        this.sessionId = sessionId;
+        this.currentQuestionIndex = 0;
+        this.retryCount = 0;
+        this.responses = new HashMap<>();
+        this.transcriptHistory = new ArrayList<>();
+        this.createdAt = Instant.now();
+        this.lastModifiedAt = Instant.now();
+        this.status = SessionStatus.ACTIVE;
+    }
+
+    public void recordResponse(UserResponse response) {
+        this.responses.put(response.getQuestionId(), response);
+        this.transcriptHistory.add(String.format("Q%d: %s -> %s",
+                response.getQuestionId(),
+                response.getTranscript(),
+                response.getClassifiedCategory()));
+        this.currentQuestionIndex++;
+        this.retryCount = 0;
+        this.lastModifiedAt = Instant.now();
+    }
+
+    public void incrementRetry() {
+        this.retryCount++;
+        this.lastModifiedAt = Instant.now();
+    }
+
+    public void resetRetry() {
+        this.retryCount = 0;
+        this.lastModifiedAt = Instant.now();
+    }
+
+    public void complete() {
+        this.status = SessionStatus.COMPLETED;
+        this.lastModifiedAt = Instant.now();
+    }
+
+    public void expire() {
+        this.status = SessionStatus.EXPIRED;
+        this.lastModifiedAt = Instant.now();
+    }
+
+    public boolean isActive() {
+        return SessionStatus.ACTIVE.equals(this.status);
+    }
+
+    public boolean isCompleted() {
+        return SessionStatus.COMPLETED.equals(this.status);
+    }
+
+    public enum SessionStatus {
+        ACTIVE,
+        COMPLETED,
+        EXPIRED
+    }
+}
+===== ./java/com/voiceai/conversation/model/Question.java =====
+package com.voiceai.conversation.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Represents a questionnaire question with valid response categories.
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Question implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private int id;
+    private String text;
+    private List<String> validCategories;
+
+    public boolean isValidCategory(String category) {
+        if (category == null) {
+            return false;
+        }
+        return validCategories.stream()
+                .anyMatch(valid -> valid.equalsIgnoreCase(category.trim()));
+    }
+}
+===== ./java/com/voiceai/conversation/model/QuestionnaireSession.java =====
+package com.voiceai.conversation.model;
+
+import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Manages the state of a questionnaire session including current question,
+ * collected responses, and retry attempts.
+ */
+@Data
+public class QuestionnaireSession {
+    private String sessionId;
+    private int currentQuestionIndex;
+    private int retryCount;
+    private Map<Integer, String> responses; // questionId -> category
+    private List<String> transcriptHistory;
+    private LocalDateTime startTime;
+    private LocalDateTime lastActivityTime;
+    private boolean completed;
+
+    public QuestionnaireSession(String sessionId) {
+        this.sessionId = sessionId;
+        this.currentQuestionIndex = 0;
+        this.retryCount = 0;
+        this.responses = new HashMap<>();
+        this.transcriptHistory = new ArrayList<>();
+        this.startTime = LocalDateTime.now();
+        this.lastActivityTime = LocalDateTime.now();
+        this.completed = false;
+    }
+
+    /**
+     * Records a successful response and moves to next question.
+     */
+    public void recordResponse(int questionId, String category, String transcript) {
+        responses.put(questionId, category);
+        transcriptHistory.add(String.format("Q%d: %s", questionId, transcript));
+        currentQuestionIndex++;
+        retryCount = 0;
+        lastActivityTime = LocalDateTime.now();
+    }
+
+    /**
+     * Increments retry counter for current question.
+     */
+    public void incrementRetry() {
+        retryCount++;
+        lastActivityTime = LocalDateTime.now();
+    }
+
+    /**
+     * Resets retry counter (used when moving to next question).
+     */
+    public void resetRetry() {
+        retryCount = 0;
+    }
+
+    /**
+     * Checks if max retries exceeded.
+     */
+    public boolean hasExceededRetries(int maxRetries) {
+        return retryCount >= maxRetries;
+    }
+
+    /**
+     * Marks session as completed.
+     */
+    public void complete() {
+        this.completed = true;
+        this.lastActivityTime = LocalDateTime.now();
+    }
+}
+
+===== ./java/com/voiceai/conversation/model/UserResponse.java =====
+package com.voiceai.conversation.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.Instant;
+
+/**
+ * Represents a user's response to a question.
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserResponse implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private int questionId;
+    private String transcript;
+    private String classifiedCategory;
+    private double confidence;
+    private Instant recordedAt;
+
+    public UserResponse(int questionId, String transcript, String classifiedCategory, double confidence) {
+        this.questionId = questionId;
+        this.transcript = transcript;
+        this.classifiedCategory = classifiedCategory;
+        this.confidence = confidence;
+        this.recordedAt = Instant.now();
+    }
+}
+===== ./java/com/voiceai/conversation/model/dto/QuestionResponse.java =====
+package com.voiceai.conversation.model.dto;
+
+import com.voiceai.conversation.model.Question;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class QuestionResponse {
+    private Question question;
+    private String message;
+    private boolean completed;
+    private int totalQuestions;
+    private int currentQuestionNumber;
+}
+===== ./java/com/voiceai/conversation/model/dto/ErrorResponse.java =====
+package com.voiceai.conversation.model.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ErrorResponse {
+    private String error;
+    private String message;
+    private String timestamp;
+    private String path;
+}
+===== ./java/com/voiceai/conversation/model/dto/ResponseSubmissionResult.java =====
+package com.voiceai.conversation.model.dto;
+
+import com.voiceai.conversation.model.Question;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ResponseSubmissionResult {
+    private String status;
+    private String message;
+    private String transcript;
+    private Question nextQuestion;
+    private boolean completed;
+    private int retriesRemaining;
+    private double confidence;
+}
+
+===== ./java/com/voiceai/conversation/model/dto/SessionStartResponse.java =====
+package com.voiceai.conversation.model.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SessionStartResponse {
+    private String sessionId;
+    private String message;
+    private long expiresInSeconds;
+}
+
+===== ./resources/application.properties =====
+spring.application.name=conversation
+
+####################################
+# Server
+####################################
+server.port=${SERVER_PORT:8080}
+server.shutdown=graceful
+server.compression.enabled=true
+server.compression.mime-types=application/json,audio/mpeg
+
+####################################
+# Redis
+####################################
+spring.data.redis.host=${REDIS_HOST:localhost}
+spring.data.redis.port=${REDIS_PORT:6379}
+spring.data.redis.password=${REDIS_PASSWORD:}
+spring.data.redis.timeout=5000ms
+
+spring.data.redis.lettuce.pool.enabled=true
+spring.data.redis.lettuce.pool.max-active=8
+spring.data.redis.lettuce.pool.max-idle=8
+spring.data.redis.lettuce.pool.min-idle=2
+
+####################################
+# Multipart (Audio Uploads)
+####################################
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+####################################
+# Actuator & Metrics
+####################################
+management.endpoints.web.exposure.include=health,metrics,prometheus
+management.prometheus.metrics.export.enabled=true
+
+####################################
+# AWS Common
+####################################
+aws.region=${AWS_REGION:us-east-1}
+aws.api-timeout-seconds=30
+aws.max-retries=3
+
+####################################
+# AWS Polly
+####################################
+aws.polly.voice-id=${POLLY_VOICE_ID:Joanna}
+aws.polly.engine=${POLLY_ENGINE:neural}
+
+####################################
+# AWS Bedrock
+####################################
+aws.bedrock.model-id=${BEDROCK_MODEL_ID:anthropic.claude-3-5-sonnet-20240620-v1:0}
+aws.bedrock.max-tokens=500
+aws.bedrock.temperature=0.3
+
+####################################
+# Questionnaire
+####################################
+questionnaire.max-retries=3
+questionnaire.confidence-threshold=0.6
+
+####################################
+# Audio Constraints
+####################################
+audio.max-size-bytes=10485760
+audio.min-size-bytes=1000
+
+####################################
+# Session
+####################################
+session.timeout-minutes=${SESSION_TIMEOUT_MINUTES:30}
+
+####################################
+# CORS
+####################################
+cors.allowed-origins=${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+cors.max-age-seconds=3600
+
+####################################
+# Logging
+####################################
+logging.level.root=INFO
+logging.level.com.healthquest=DEBUG
+logging.level.software.amazon.awssdk=WARN
+
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+logging.pattern.file=%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+
+
+===== ./resources/logback-spring.xml =====
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/voice-questionnaire.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/voice-questionnaire-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.healthquest" level="DEBUG"/>
+    <logger name="software.amazon.awssdk" level="WARN"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
