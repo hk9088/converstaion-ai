@@ -1,0 +1,55 @@
+services:
+  redis:
+    image: redis:7.4-alpine
+    container_name: my-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --appendonly yes
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  app:
+    image: conversation-ai-flight:v0.0.1
+    container_name: conversation-ai-flight
+    ports:
+      - "8080:8080"
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      AWS_REGION: us-east-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  frontend:
+    image: frontend-conversation-ai:v0.0.1
+    container_name: frontend-conversation-ai
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - app-network
+
+
+volumes:
+  redis-data:
+
+networks:
+  app-network:
+    driver: bridge
+

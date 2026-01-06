@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/questionnaire")
+@RequestMapping("/questionnaire")
 @RequiredArgsConstructor
 public class QuestionnaireController {
 
