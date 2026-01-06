@@ -35,12 +35,13 @@ services:
       - app-network
 
   frontend:
-    image: frontend-conversation-ai:v0.0.1
+    image: frontend-conversation-ai:v0.0.2
     container_name: frontend-conversation-ai
     ports:
       - "80:80"
-    depends_on:
-      - app
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     restart: unless-stopped
     networks:
       - app-network
