@@ -28,7 +28,7 @@ public class TextToSpeechService {
     @Value("${aws.polly.voice-id:Joanna}")
     private String voiceId;
 
-    @Value("${aws.polly.engine:neural}")
+    @Value("${aws.polly.engine}")
     private String engine;
 
     public byte[] synthesizeSpeech(String text) {
@@ -44,7 +44,7 @@ public class TextToSpeechService {
                     .text(text)
                     .voiceId(VoiceId.fromValue(voiceId))
                     .outputFormat(OutputFormat.MP3)
-                    .engine(Engine.fromValue(engine))
+                    .engine(engine)
                     .build();
 
             ResponseInputStream<SynthesizeSpeechResponse> response =
