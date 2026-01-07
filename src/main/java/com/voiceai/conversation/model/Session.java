@@ -1,6 +1,5 @@
 package com.voiceai.conversation.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +34,7 @@ public class Session implements Serializable {
     private Instant createdAt;
     private Instant lastModifiedAt;
     private SessionStatus status;
+    private boolean hasMaxRetriesExceeded;
 
     public Session(String sessionId) {
         this.sessionId = sessionId;
@@ -45,6 +45,7 @@ public class Session implements Serializable {
         this.createdAt = Instant.now();
         this.lastModifiedAt = Instant.now();
         this.status = SessionStatus.ACTIVE;
+        this.hasMaxRetriesExceeded = false;
     }
 
     public void recordResponse(UserResponse response) {
@@ -60,6 +61,11 @@ public class Session implements Serializable {
 
     public void incrementRetry() {
         this.retryCount++;
+        this.lastModifiedAt = Instant.now();
+    }
+
+    public void markMaxRetriesExceeded() {
+        this.hasMaxRetriesExceeded = true;
         this.lastModifiedAt = Instant.now();
     }
 
@@ -84,6 +90,10 @@ public class Session implements Serializable {
 
     public boolean isCompleted() {
         return SessionStatus.COMPLETED.equals(this.status);
+    }
+
+    public boolean isSuccessful() {
+        return isCompleted();
     }
 
     public enum SessionStatus {

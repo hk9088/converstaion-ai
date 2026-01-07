@@ -1,6 +1,5 @@
 package com.voiceai.conversation.controller;
 
-
 import com.voiceai.conversation.model.Question;
 import com.voiceai.conversation.model.Session;
 import com.voiceai.conversation.model.dto.QuestionResponse;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @RestController
-@RequestMapping("/questionnaire")
+@RequestMapping("/api/questionnaire")
 @RequiredArgsConstructor
 public class QuestionnaireController {
 
@@ -94,6 +93,22 @@ public class QuestionnaireController {
         return new ResponseEntity<>(audioData, headers, HttpStatus.OK);
     }
 
+    @GetMapping("/retry/{sessionId}/audio")
+    public ResponseEntity<byte[]> getRetryAudio(
+            @PathVariable String sessionId,
+            @RequestParam String message) {
+        log.info("Getting retry audio for session: {}", sessionId);
+
+        byte[] audioData = orchestrator.getRetryAudio(message);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("audio/mpeg"));
+        headers.setContentLength(audioData.length);
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=retry.mp3");
+
+        return new ResponseEntity<>(audioData, headers, HttpStatus.OK);
+    }
+
     @PostMapping("/response/{sessionId}")
     public ResponseEntity<ResponseSubmissionResult> processVoiceResponse(
             @PathVariable String sessionId,
@@ -109,8 +124,9 @@ public class QuestionnaireController {
                             null,
                             null,
                             false,
-                            0,
-                            0.0
+                            0.0,
+                            null,
+                            false
                     )
             );
         }
@@ -149,8 +165,9 @@ public class QuestionnaireController {
                 result.getTranscript(),
                 result.getNextQuestion(),
                 result.getStatus() == QuestionnaireOrchestrator.ProcessingStatus.COMPLETED,
-                result.getRetriesRemaining(),
-                result.getClassification() != null ? result.getClassification().getConfidence() : 0.0
+                result.getClassification() != null ? result.getClassification().getConfidence() : 0.0,
+                result.getRetryMessage(),
+                result.getSession().isSuccessful()
         );
     }
 }

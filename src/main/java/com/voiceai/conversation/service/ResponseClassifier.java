@@ -58,8 +58,9 @@ public class ResponseClassifier {
             metricsService.recordClassificationLatency(duration);
             metricsService.incrementClassificationSuccess();
 
-            log.info("Classification result for Q{}: matched={}, category={}, confidence={:.2f}",
-                    question.getId(), result.isMatched(), result.getCategory(), result.getConfidence());
+            log.info("Classification result for Q{}: matched={}, category={}, confidence={}, retryMessage='{}'",
+                    question.getId(), result.isMatched(), result.getCategory(),
+                    result.getConfidence(), result.getRetryMessage());
 
             return result;
 
@@ -84,16 +85,24 @@ public class ResponseClassifier {
             1. Be flexible with synonyms (e.g., "pretty confident" matches "somewhat confident")
             2. Handle numbers as words or digits (e.g., "zero days" or "0" both match "0")
             3. Ignore filler words and minor variations
-            4. If the response clearly maps to a category, set matched=true
+            4. If the response closely maps to a category, set matched=true
             5. If ambiguous or doesn't match any category, set matched=false
             
+            If you decided to set matched=false then you need to politely ask them to try again:
+            Generate a SHORT, natural, conversational retry message (1-2 sentences max) that:
+            1. Acknowledges their response kindly
+            2. Gently explains why it doesn't match the expected format
+            3. Encourages them to try again with one of the valid options
+            4. Gets progressively more helpful with each retry (if retry count is high, be more explicit)
+            5. Maintains a warm, supportive tone
+            
             Respond with ONLY a JSON object in this exact format (no markdown, no preamble):
-            {"matched": true/false, "category": "exact category string or null", "confidence": 0.0-1.0}
+            {"matched": true/false, "category": "exact category string or null", "confidence": 0.0-1.0, "retryMessage": ""}
             
             Examples:
-            - Response: "I felt quite confident" → {"matched": true, "category": "somewhat confident", "confidence": 0.85}
-            - Response: "zero" → {"matched": true, "category": "0", "confidence": 0.95}
-            - Response: "I don't know" → {"matched": false, "category": null, "confidence": 0.1}
+            - Response: "I felt quite confident" → {"matched": true, "category": "somewhat confident", "confidence": 0.85, "retryMessage": ""}
+            - Response: "zero" → {"matched": true, "category": "0", "confidence": 0.95, "retryMessage": ""}
+            - Response: "I don't know" → {"matched": false, "category": null, "confidence": 0.1, "retryMessage": "I didn't quite catch that. Could you please choose one of these options: yes, no, sometimes, I don't take medication, or I don't have access to my medication?"}
             """,
                 question.getText(),
                 categoriesStr,

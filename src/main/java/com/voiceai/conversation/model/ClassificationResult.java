@@ -23,6 +23,9 @@ public class ClassificationResult {
     @JsonProperty("confidence")
     private double confidence;
 
+    @JsonProperty("retryMessage")
+    private String retryMessage;
+
     public boolean isValid(double minConfidence) {
         return matched
                 && category != null

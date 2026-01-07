@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Orchestrates the questionnaire flow including question progression,
- * retry logic, and response processing with automatic retry messages.
+ * retry logic, and response processing with dynamic retry messages from AI.
  */
 @Slf4j
 @Service
@@ -26,8 +26,6 @@ public class QuestionnaireOrchestrator {
     private final AudioValidator audioValidator;
     private final List<Question> questions;
 
-    @Value("${questionnaire.max-retries:3}")
-    private int maxRetries;
 
     @Value("${questionnaire.confidence-threshold:0.6}")
     private double confidenceThreshold;
@@ -46,16 +44,19 @@ public class QuestionnaireOrchestrator {
 
     public byte[] getQuestionAudio(String sessionId) {
         Question question = getCurrentQuestion(sessionId);
-        Session session = sessionService.getSession(sessionId);
 
         String questionText;
         if (question == null) {
             questionText = "Thank you for completing the questionnaire. Your responses have been recorded.";
         } else {
-            questionText = formatQuestionWithRetryMessage(question, session.getRetryCount());
+            questionText = question.getText();
         }
 
         return textToSpeechService.synthesizeSpeech(questionText);
+    }
+
+    public byte[] getRetryAudio(String retryMessage) {
+        return textToSpeechService.synthesizeSpeech(retryMessage);
     }
 
     public ProcessingResult processVoiceResponse(String sessionId, byte[] audioData) {
@@ -75,7 +76,7 @@ public class QuestionnaireOrchestrator {
 
             if (transcript.isEmpty()) {
                 log.warn("Empty transcript for session={}", sessionId);
-                return handleClassificationFailure(session, currentQuestion, "");
+                return handleClassificationFailure(session, currentQuestion, "", null);
             }
 
             ClassificationResult classification = responseClassifier.classifyResponse(
@@ -86,14 +87,14 @@ public class QuestionnaireOrchestrator {
             if (classification.isValid(confidenceThreshold)) {
                 return handleSuccessfulClassification(session, currentQuestion, classification, transcript);
             } else {
-                log.info("Classification failed: matched={}, confidence={:.2f}",
+                log.info("Classification failed: matched={}, confidence={}",
                         classification.isMatched(), classification.getConfidence());
-                return handleClassificationFailure(session, currentQuestion, transcript);
+                return handleClassificationFailure(session, currentQuestion, transcript, classification);
             }
 
         } catch (Exception e) {
             log.error("Error processing response: {}", e.getMessage(), e);
-            return handleClassificationFailure(session, currentQuestion, "");
+            return handleClassificationFailure(session, currentQuestion, "", null);
         }
     }
 
@@ -115,7 +116,7 @@ public class QuestionnaireOrchestrator {
 
         Question nextQuestion = getCurrentQuestion(session.getSessionId());
 
-        log.info("Response recorded: Q{}={} (confidence={:.2f})",
+        log.info("Response recorded: Q{}={} (confidence={})",
                 question.getId(), classification.getCategory(), classification.getConfidence());
 
         if (nextQuestion == null) {
@@ -128,47 +129,29 @@ public class QuestionnaireOrchestrator {
     private ProcessingResult handleClassificationFailure(
             Session session,
             Question question,
-            String transcript) {
+            String transcript,
+            ClassificationResult classification) {
 
-        session.incrementRetry();
         sessionService.saveSession(session);
 
-        int retriesRemaining = maxRetries - session.getRetryCount();
+//        if (session.getRetryCount() >= maxRetries) {
+//            log.warn("Max retries exceeded for session={}, question={}",
+//                    session.getSessionId(), question.getId());
+//            session.markMaxRetriesExceeded();
+//            sessionService.saveSession(session);
+//            return ProcessingResult.maxRetriesExceeded(session, question, transcript);
+//        }
 
-        if (session.getRetryCount() >= maxRetries) {
-            log.warn("Max retries exceeded for session={}, question={}",
-                    session.getSessionId(), question.getId());
-            return ProcessingResult.maxRetriesExceeded(session, question, transcript);
-        }
+        // Use AI-generated retry message if available, otherwise use fallback
+        String retryMessage = (classification != null && classification.getRetryMessage() != null
+                && !classification.getRetryMessage().isEmpty())
+                ? classification.getRetryMessage()
+                : "I didn't quite catch that. Let me repeat the question.";
 
-        log.info("Retry {}/{} for session={}, question={}",
-                session.getRetryCount(), maxRetries, session.getSessionId(), question.getId());
+        log.info("Session={}, question={}, retryMessage='{}'",
+                session.getSessionId(), question.getId(), retryMessage);
 
-        return ProcessingResult.retry(session, question, transcript, retriesRemaining);
-    }
-
-    /**
-     * Formats question text with appropriate retry message based on retry count.
-     * This creates a natural conversational flow with contextual retry messages.
-     */
-    private String formatQuestionWithRetryMessage(Question question, int retryCount) {
-        String retryMessage;
-
-        switch (retryCount) {
-            case 0:
-                return question.getText();
-            case 1:
-                retryMessage = "Sorry, I didn't catch that. Let me ask again. ";
-                break;
-            case 2:
-                retryMessage = "I'm having trouble understanding. Let's try one more time. ";
-                break;
-            default:
-                retryMessage = "Let me repeat the question. ";
-                break;
-        }
-
-        return retryMessage + question.getText();
+        return ProcessingResult.retry(session, question, transcript, retryMessage);
     }
 
     @Data
@@ -180,7 +163,7 @@ public class QuestionnaireOrchestrator {
         private String transcript;
         private Question nextQuestion;
         private String message;
-        private int retriesRemaining;
+        private String retryMessage;
 
         public static ProcessingResult success(
                 Session session,
@@ -194,7 +177,7 @@ public class QuestionnaireOrchestrator {
                     transcript,
                     nextQuestion,
                     "Response recorded successfully",
-                    0
+                    null
             );
         }
 
@@ -202,7 +185,7 @@ public class QuestionnaireOrchestrator {
                 Session session,
                 Question question,
                 String transcript,
-                int retriesRemaining) {
+                String retryMessage) {
             return new ProcessingResult(
                     ProcessingStatus.RETRY,
                     session,
@@ -210,22 +193,7 @@ public class QuestionnaireOrchestrator {
                     transcript,
                     question,
                     "Please try answering again",
-                    retriesRemaining
-            );
-        }
-
-        public static ProcessingResult maxRetriesExceeded(
-                Session session,
-                Question question,
-                String transcript) {
-            return new ProcessingResult(
-                    ProcessingStatus.MAX_RETRIES_EXCEEDED,
-                    session,
-                    null,
-                    transcript,
-                    question,
-                    "Maximum retry attempts reached for this question",
-                    0
+                    retryMessage
             );
         }
 
@@ -237,7 +205,7 @@ public class QuestionnaireOrchestrator {
                     null,
                     null,
                     "Questionnaire completed successfully",
-                    0
+                    null
             );
         }
 
@@ -252,7 +220,7 @@ public class QuestionnaireOrchestrator {
                     transcript,
                     null,
                     "Questionnaire completed successfully",
-                    0
+                    null
             );
         }
     }
@@ -260,7 +228,6 @@ public class QuestionnaireOrchestrator {
     public enum ProcessingStatus {
         SUCCESS,
         RETRY,
-        MAX_RETRIES_EXCEEDED,
         COMPLETED
     }
 }

@@ -14,6 +14,7 @@ public class ResponseSubmissionResult {
     private String transcript;
     private Question nextQuestion;
     private boolean completed;
-    private int retriesRemaining;
     private double confidence;
+    private String retryMessage;
+    private boolean isSuccessful;
 }
