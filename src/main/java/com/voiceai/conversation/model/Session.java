@@ -79,6 +79,11 @@ public class Session implements Serializable {
         this.lastModifiedAt = Instant.now();
     }
 
+    public void cancel() {
+        this.status = SessionStatus.CANCELLED;
+        this.lastModifiedAt = Instant.now();
+    }
+
     public void expire() {
         this.status = SessionStatus.EXPIRED;
         this.lastModifiedAt = Instant.now();
@@ -92,6 +97,10 @@ public class Session implements Serializable {
         return SessionStatus.COMPLETED.equals(this.status);
     }
 
+    public boolean isCancelled() {
+        return SessionStatus.CANCELLED.equals(this.status);
+    }
+
     public boolean isSuccessful() {
         return isCompleted();
     }
@@ -99,6 +108,7 @@ public class Session implements Serializable {
     public enum SessionStatus {
         ACTIVE,
         COMPLETED,
+        CANCELLED,
         EXPIRED
     }
 }

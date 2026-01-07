@@ -144,6 +144,26 @@ public class QuestionnaireController {
         }
     }
 
+    @PostMapping("/cancel/{sessionId}")
+    public ResponseEntity<Map<String, Object>> cancelSession(@PathVariable String sessionId) {
+        log.info("Cancelling session: {}", sessionId);
+
+        Session session = sessionService.getSession(sessionId);
+        session.cancel();
+        sessionService.saveSession(session);
+
+        Map<Integer, String> responses = session.getResponses().entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue().getClassifiedCategory()
+                ));
+
+        return ResponseEntity.ok(Map.of(
+                "message", "Session cancelled",
+                "responses", responses
+        ));
+    }
+
     @GetMapping("/responses/{sessionId}")
     public ResponseEntity<Map<Integer, String>> getSessionResponses(@PathVariable String sessionId) {
         log.info("Getting responses for session: {}", sessionId);

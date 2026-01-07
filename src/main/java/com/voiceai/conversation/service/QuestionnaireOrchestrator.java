@@ -146,7 +146,7 @@ public class QuestionnaireOrchestrator {
         String retryMessage = (classification != null && classification.getRetryMessage() != null
                 && !classification.getRetryMessage().isEmpty())
                 ? classification.getRetryMessage()
-                : "I didn't quite catch that. Let me repeat the question.";
+                : "I didn't quite catch that. Let me repeat the question. " + question.getText();
 
         log.info("Session={}, question={}, retryMessage='{}'",
                 session.getSessionId(), question.getId(), retryMessage);

@@ -499,3 +499,200 @@
 2026-01-07 13:35:06.941 [http-nio-8080-exec-6] INFO  c.v.c.c.QuestionnaireController - Getting responses for session: 81d3c099-b530-42b1-badd-dd8dd22ac6d4
 2026-01-07 13:43:31.700 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2026-01-07 13:43:31.702 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-01-07 13:55:57.847 [restartedMain] INFO  c.v.c.ConversationApplication - Starting ConversationApplication using Java 17.0.15 with PID 43265 (/home/hridoy/Downloads/conversation/build/classes/java/main started by hridoy in /home/hridoy/Downloads/conversation)
+2026-01-07 13:55:57.853 [restartedMain] INFO  c.v.c.ConversationApplication - No active profile set, falling back to 1 default profile: "default"
+2026-01-07 13:55:57.906 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-07 13:55:57.906 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-07 13:55:58.847 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-07 13:55:58.849 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-07 13:55:58.873 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2026-01-07 13:55:59.237 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-01-07 13:55:59.257 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-01-07 13:55:59.257 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-01-07 13:55:59.289 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-01-07 13:55:59.289 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1382 ms
+2026-01-07 13:55:59.430 [restartedMain] INFO  c.v.conversation.config.RedisConfig - Configuring Redis connection to localhost:6379
+2026-01-07 13:55:59.672 [restartedMain] INFO  c.v.conversation.config.RedisConfig - RedisTemplate configured with polymorphic JSON serialization
+2026-01-07 13:55:59.676 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Polly client for region: us-east-1
+2026-01-07 13:56:00.037 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Transcribe Streaming client for region: us-east-1
+2026-01-07 13:56:00.092 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Bedrock Runtime client for region: us-east-1
+2026-01-07 13:56:00.138 [restartedMain] INFO  c.v.c.config.SecurityConfig - Configuring CORS for origins: [http://localhost:5173, http://localhost:3000]
+2026-01-07 13:56:00.565 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-01-07 13:56:00.570 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 2 endpoints beneath base path '/actuator'
+2026-01-07 13:56:00.614 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-01-07 13:56:00.632 [restartedMain] INFO  c.v.c.ConversationApplication - Started ConversationApplication in 3.578 seconds (process running for 4.663)
+2026-01-07 13:56:01.055 [RMI TCP Connection(4)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-07 13:56:01.055 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-01-07 13:56:01.059 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-01-07 13:56:28.516 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Getting responses for session: 81d3c099-b530-42b1-badd-dd8dd22ac6d4
+2026-01-07 13:56:28.579 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Getting responses for session: 81d3c099-b530-42b1-badd-dd8dd22ac6d4
+2026-01-07 13:56:33.625 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-07 13:56:33.626 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-07 13:56:33.646 [http-nio-8080-exec-4] INFO  c.v.c.service.SessionService - Created session: 338f7a40-86e7-4db1-9ef2-f6245fe8ddb8 with TTL: 30 minutes
+2026-01-07 13:56:33.646 [http-nio-8080-exec-3] INFO  c.v.c.service.SessionService - Created session: 2b67a920-92f5-47b6-8484-9d091c369e7b with TTL: 30 minutes
+2026-01-07 13:56:33.661 [http-nio-8080-exec-5] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 2b67a920-92f5-47b6-8484-9d091c369e7b
+2026-01-07 13:56:33.661 [http-nio-8080-exec-6] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 338f7a40-86e7-4db1-9ef2-f6245fe8ddb8
+2026-01-07 13:56:45.734 [http-nio-8080-exec-7] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 338f7a40-86e7-4db1-9ef2-f6245fe8ddb8
+2026-01-07 13:56:45.736 [http-nio-8080-exec-7] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-07 13:56:47.866 [http-nio-8080-exec-7] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 2129ms
+2026-01-07 13:56:47.873 [http-nio-8080-exec-8] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 338f7a40-86e7-4db1-9ef2-f6245fe8ddb8
+2026-01-07 13:56:47.874 [http-nio-8080-exec-8] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-07 13:56:48.683 [http-nio-8080-exec-8] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 809ms
+2026-01-07 13:57:00.154 [http-nio-8080-exec-9] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 338f7a40-86e7-4db1-9ef2-f6245fe8ddb8
+2026-01-07 13:57:00.157 [http-nio-8080-exec-9] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=338f7a40-86e7-4db1-9ef2-f6245fe8ddb8, question=1
+2026-01-07 13:57:00.157 [http-nio-8080-exec-9] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 188204 bytes
+2026-01-07 13:57:04.260 [http-nio-8080-exec-9] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'Good.' (4103ms)
+2026-01-07 13:57:04.260 [http-nio-8080-exec-9] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q1: 'Good.'
+2026-01-07 13:57:07.736 [http-nio-8080-exec-9] INFO  c.v.c.service.ResponseClassifier - Classification result for Q1: matched=false, category=null, confidence=0.3, retryMessage='Thanks for your response. Could you please be more specific? Try choosing from: very confident, somewhat confident, neutral, not very confident, or not confident at all.'
+2026-01-07 13:57:07.736 [http-nio-8080-exec-9] INFO  c.v.c.s.QuestionnaireOrchestrator - Classification failed: matched=false, confidence=0.3
+2026-01-07 13:57:07.737 [http-nio-8080-exec-9] INFO  c.v.c.s.QuestionnaireOrchestrator - Session=338f7a40-86e7-4db1-9ef2-f6245fe8ddb8, question=1, retryMessage='Thanks for your response. Could you please be more specific? Try choosing from: very confident, somewhat confident, neutral, not very confident, or not confident at all.'
+2026-01-07 13:57:07.748 [http-nio-8080-exec-10] INFO  c.v.c.c.QuestionnaireController - Getting retry audio for session: 338f7a40-86e7-4db1-9ef2-f6245fe8ddb8
+2026-01-07 13:57:07.748 [http-nio-8080-exec-10] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 169)
+2026-01-07 13:57:08.962 [http-nio-8080-exec-10] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 67004 bytes in 1214ms
+2026-01-07 13:57:25.223 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 338f7a40-86e7-4db1-9ef2-f6245fe8ddb8
+2026-01-07 13:57:25.225 [http-nio-8080-exec-1] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=338f7a40-86e7-4db1-9ef2-f6245fe8ddb8, question=1
+2026-01-07 13:57:25.225 [http-nio-8080-exec-1] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 142124 bytes
+2026-01-07 13:57:28.622 [http-nio-8080-exec-1] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'Very confident' (3397ms)
+2026-01-07 13:57:28.623 [http-nio-8080-exec-1] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q1: 'Very confident'
+2026-01-07 13:57:30.772 [http-nio-8080-exec-1] INFO  c.v.c.service.ResponseClassifier - Classification result for Q1: matched=true, category=very confident, confidence=0.98, retryMessage=''
+2026-01-07 13:57:30.775 [http-nio-8080-exec-1] INFO  c.v.c.s.QuestionnaireOrchestrator - Response recorded: Q1=very confident (confidence=0.98)
+2026-01-07 13:58:11.639 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-07 13:58:11.640 [http-nio-8080-exec-2] INFO  c.v.c.service.SessionService - Created session: 9b42ff0c-4b84-4c46-b79a-daeb6387a916 with TTL: 30 minutes
+2026-01-07 13:58:11.641 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-07 13:58:11.642 [http-nio-8080-exec-3] INFO  c.v.c.service.SessionService - Created session: 0d80f40b-ad76-45ed-ad18-eb15c02269c4 with TTL: 30 minutes
+2026-01-07 13:58:11.655 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 9b42ff0c-4b84-4c46-b79a-daeb6387a916
+2026-01-07 13:58:11.669 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 0d80f40b-ad76-45ed-ad18-eb15c02269c4
+2026-01-07 13:58:12.904 [http-nio-8080-exec-5] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 0d80f40b-ad76-45ed-ad18-eb15c02269c4
+2026-01-07 13:58:12.905 [http-nio-8080-exec-5] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-07 13:58:14.602 [http-nio-8080-exec-5] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 1696ms
+2026-01-07 13:58:14.608 [http-nio-8080-exec-7] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 0d80f40b-ad76-45ed-ad18-eb15c02269c4
+2026-01-07 13:58:14.609 [http-nio-8080-exec-7] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-07 13:58:15.420 [http-nio-8080-exec-7] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 811ms
+2026-01-07 13:58:23.518 [http-nio-8080-exec-8] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 0d80f40b-ad76-45ed-ad18-eb15c02269c4
+2026-01-07 13:58:23.520 [http-nio-8080-exec-8] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=0d80f40b-ad76-45ed-ad18-eb15c02269c4, question=1
+2026-01-07 13:58:23.521 [http-nio-8080-exec-8] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 82604 bytes
+2026-01-07 13:58:27.248 [http-nio-8080-exec-8] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'Very confident.' (3727ms)
+2026-01-07 13:58:27.249 [http-nio-8080-exec-8] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q1: 'Very confident.'
+2026-01-07 13:58:28.631 [http-nio-8080-exec-8] INFO  c.v.c.service.ResponseClassifier - Classification result for Q1: matched=true, category=very confident, confidence=0.98, retryMessage=''
+2026-01-07 13:58:28.633 [http-nio-8080-exec-8] INFO  c.v.c.s.QuestionnaireOrchestrator - Response recorded: Q1=very confident (confidence=0.98)
+2026-01-07 14:01:17.709 [http-nio-8080-exec-9] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-07 14:01:17.713 [http-nio-8080-exec-9] INFO  c.v.c.service.SessionService - Created session: d3ae2785-5825-403c-8832-e932195ad760 with TTL: 30 minutes
+2026-01-07 14:01:17.719 [http-nio-8080-exec-10] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: d3ae2785-5825-403c-8832-e932195ad760
+2026-01-07 14:01:31.072 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-07 14:01:31.073 [http-nio-8080-exec-1] INFO  c.v.c.service.SessionService - Created session: 1cfe4908-713e-45a4-aa7a-377369527513 with TTL: 30 minutes
+2026-01-07 14:01:31.074 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-07 14:01:31.076 [http-nio-8080-exec-2] INFO  c.v.c.service.SessionService - Created session: b94ffc1f-8852-4c8f-92ab-806de1807f6d with TTL: 30 minutes
+2026-01-07 14:01:31.090 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 1cfe4908-713e-45a4-aa7a-377369527513
+2026-01-07 14:01:31.091 [http-nio-8080-exec-6] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:01:32.379 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:01:32.380 [http-nio-8080-exec-4] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-07 14:01:33.775 [http-nio-8080-exec-4] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 1393ms
+2026-01-07 14:01:33.780 [http-nio-8080-exec-5] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:01:33.781 [http-nio-8080-exec-5] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-07 14:01:34.593 [http-nio-8080-exec-5] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 811ms
+2026-01-07 14:01:43.704 [http-nio-8080-exec-7] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:01:43.706 [http-nio-8080-exec-7] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=b94ffc1f-8852-4c8f-92ab-806de1807f6d, question=1
+2026-01-07 14:01:43.706 [http-nio-8080-exec-7] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 115244 bytes
+2026-01-07 14:01:47.611 [http-nio-8080-exec-7] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'Very confident.' (3905ms)
+2026-01-07 14:01:47.611 [http-nio-8080-exec-7] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q1: 'Very confident.'
+2026-01-07 14:01:50.159 [http-nio-8080-exec-7] INFO  c.v.c.service.ResponseClassifier - Classification result for Q1: matched=true, category=very confident, confidence=0.98, retryMessage=''
+2026-01-07 14:01:50.161 [http-nio-8080-exec-7] INFO  c.v.c.s.QuestionnaireOrchestrator - Response recorded: Q1=very confident (confidence=0.98)
+2026-01-07 14:01:50.172 [http-nio-8080-exec-8] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:01:50.173 [http-nio-8080-exec-8] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 108)
+2026-01-07 14:01:50.979 [http-nio-8080-exec-8] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 37628 bytes in 806ms
+2026-01-07 14:01:50.985 [http-nio-8080-exec-9] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:01:50.986 [http-nio-8080-exec-9] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 108)
+2026-01-07 14:01:51.393 [http-nio-8080-exec-9] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 37628 bytes in 407ms
+2026-01-07 14:02:02.335 [http-nio-8080-exec-10] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:02:02.337 [http-nio-8080-exec-10] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=b94ffc1f-8852-4c8f-92ab-806de1807f6d, question=2
+2026-01-07 14:02:02.337 [http-nio-8080-exec-10] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 115244 bytes
+2026-01-07 14:02:06.048 [http-nio-8080-exec-10] INFO  c.v.c.service.SpeechToTextService - Transcription complete: '' (3711ms)
+2026-01-07 14:02:06.048 [http-nio-8080-exec-10] WARN  c.v.c.s.QuestionnaireOrchestrator - Empty transcript for session=b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:02:06.049 [http-nio-8080-exec-10] INFO  c.v.c.s.QuestionnaireOrchestrator - Session=b94ffc1f-8852-4c8f-92ab-806de1807f6d, question=2, retryMessage='I didn't quite catch that. Let me repeat the question.'
+2026-01-07 14:02:06.056 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Getting retry audio for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:02:06.057 [http-nio-8080-exec-1] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 54)
+2026-01-07 14:02:06.850 [http-nio-8080-exec-1] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 21068 bytes in 793ms
+2026-01-07 14:02:22.148 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:02:22.151 [http-nio-8080-exec-2] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=b94ffc1f-8852-4c8f-92ab-806de1807f6d, question=2
+2026-01-07 14:02:22.151 [http-nio-8080-exec-2] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 355244 bytes
+2026-01-07 14:02:30.130 [http-nio-8080-exec-2] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'I don't think you can I'm sorry' (7979ms)
+2026-01-07 14:02:30.130 [http-nio-8080-exec-2] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q2: 'I don't think you can I'm sorry'
+2026-01-07 14:02:33.445 [http-nio-8080-exec-2] INFO  c.v.c.service.ResponseClassifier - Classification result for Q2: matched=false, category=null, confidence=0.1, retryMessage='I understand you're having trouble answering. Could you try again and tell me how many days in the past week you did moderate activity for at least 20 minutes? The options are 0, 1-3, 4-5, or 6-7 days.'
+2026-01-07 14:02:33.445 [http-nio-8080-exec-2] INFO  c.v.c.s.QuestionnaireOrchestrator - Classification failed: matched=false, confidence=0.1
+2026-01-07 14:02:33.446 [http-nio-8080-exec-2] INFO  c.v.c.s.QuestionnaireOrchestrator - Session=b94ffc1f-8852-4c8f-92ab-806de1807f6d, question=2, retryMessage='I understand you're having trouble answering. Could you try again and tell me how many days in the past week you did moderate activity for at least 20 minutes? The options are 0, 1-3, 4-5, or 6-7 days.'
+2026-01-07 14:02:33.453 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Getting retry audio for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:02:33.453 [http-nio-8080-exec-3] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 201)
+2026-01-07 14:02:34.603 [http-nio-8080-exec-3] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 80684 bytes in 1150ms
+2026-01-07 14:04:08.436 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07 14:04:08.437 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-01-07 14:08:51.970 [restartedMain] INFO  c.v.c.ConversationApplication - Starting ConversationApplication using Java 17.0.15 with PID 47534 (/home/hridoy/Downloads/conversation/build/classes/java/main started by hridoy in /home/hridoy/Downloads/conversation)
+2026-01-07 14:08:51.975 [restartedMain] INFO  c.v.c.ConversationApplication - No active profile set, falling back to 1 default profile: "default"
+2026-01-07 14:08:52.036 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-07 14:08:52.036 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-07 14:08:53.825 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-07 14:08:53.828 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-07 14:08:53.860 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 15 ms. Found 0 Redis repository interfaces.
+2026-01-07 14:08:54.398 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-01-07 14:08:54.420 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-01-07 14:08:54.421 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-01-07 14:08:54.509 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-01-07 14:08:54.510 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2473 ms
+2026-01-07 14:08:54.703 [restartedMain] INFO  c.v.conversation.config.RedisConfig - Configuring Redis connection to localhost:6379
+2026-01-07 14:08:55.030 [restartedMain] INFO  c.v.conversation.config.RedisConfig - RedisTemplate configured with polymorphic JSON serialization
+2026-01-07 14:08:55.035 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Polly client for region: us-east-1
+2026-01-07 14:08:55.420 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Transcribe Streaming client for region: us-east-1
+2026-01-07 14:08:55.477 [restartedMain] INFO  c.v.c.config.AwsConfiguration - Initializing Bedrock Runtime client for region: us-east-1
+2026-01-07 14:08:55.523 [restartedMain] INFO  c.v.c.config.SecurityConfig - Configuring CORS for origins: [http://localhost:5173, http://localhost:3000]
+2026-01-07 14:08:55.955 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-01-07 14:08:55.960 [restartedMain] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 2 endpoints beneath base path '/actuator'
+2026-01-07 14:08:56.006 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-01-07 14:08:56.024 [restartedMain] INFO  c.v.c.ConversationApplication - Started ConversationApplication in 4.896 seconds (process running for 5.586)
+2026-01-07 14:08:56.424 [RMI TCP Connection(4)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-07 14:08:56.425 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-01-07 14:08:56.427 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-01-07 14:09:00.794 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Cancelling session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:09:00.868 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Getting responses for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:09:00.875 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Getting responses for session: b94ffc1f-8852-4c8f-92ab-806de1807f6d
+2026-01-07 14:09:20.420 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-07 14:09:20.421 [http-nio-8080-exec-5] INFO  c.v.c.c.QuestionnaireController - Starting new questionnaire session
+2026-01-07 14:09:20.422 [http-nio-8080-exec-4] INFO  c.v.c.service.SessionService - Created session: ae4ddaf4-0129-400d-97fa-dd680acd1284 with TTL: 30 minutes
+2026-01-07 14:09:20.425 [http-nio-8080-exec-5] INFO  c.v.c.service.SessionService - Created session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72 with TTL: 30 minutes
+2026-01-07 14:09:20.432 [http-nio-8080-exec-6] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: ae4ddaf4-0129-400d-97fa-dd680acd1284
+2026-01-07 14:09:20.434 [http-nio-8080-exec-7] INFO  c.v.c.c.QuestionnaireController - Getting current question for session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:09:21.204 [http-nio-8080-exec-8] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:09:21.205 [http-nio-8080-exec-8] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-07 14:09:23.198 [http-nio-8080-exec-8] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 1993ms
+2026-01-07 14:09:23.205 [http-nio-8080-exec-9] INFO  c.v.c.c.QuestionnaireController - Getting question audio for session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:09:23.206 [http-nio-8080-exec-9] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 79)
+2026-01-07 14:09:24.015 [http-nio-8080-exec-9] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 26252 bytes in 809ms
+2026-01-07 14:09:32.215 [http-nio-8080-exec-10] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:09:32.218 [http-nio-8080-exec-10] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=94a1db68-a55b-47e3-a317-bfe7bc19fe72, question=1
+2026-01-07 14:09:32.219 [http-nio-8080-exec-10] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 86444 bytes
+2026-01-07 14:09:35.521 [http-nio-8080-exec-10] INFO  c.v.c.service.SpeechToTextService - Transcription complete: 'Uh' (3302ms)
+2026-01-07 14:09:35.522 [http-nio-8080-exec-10] INFO  c.v.c.service.ResponseClassifier - Classifying response for Q1: 'Uh'
+2026-01-07 14:09:38.113 [http-nio-8080-exec-10] INFO  c.v.c.service.ResponseClassifier - Classification result for Q1: matched=false, category=null, confidence=0.1, retryMessage='I understand you're thinking about it. Could you please choose from very confident, somewhat confident, neutral, not very confident, or not confident at all?'
+2026-01-07 14:09:38.113 [http-nio-8080-exec-10] INFO  c.v.c.s.QuestionnaireOrchestrator - Classification failed: matched=false, confidence=0.1
+2026-01-07 14:09:38.114 [http-nio-8080-exec-10] INFO  c.v.c.s.QuestionnaireOrchestrator - Session=94a1db68-a55b-47e3-a317-bfe7bc19fe72, question=1, retryMessage='I understand you're thinking about it. Could you please choose from very confident, somewhat confident, neutral, not very confident, or not confident at all?'
+2026-01-07 14:09:38.123 [http-nio-8080-exec-1] INFO  c.v.c.c.QuestionnaireController - Getting retry audio for session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:09:38.124 [http-nio-8080-exec-1] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 157)
+2026-01-07 14:09:39.075 [http-nio-8080-exec-1] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 56924 bytes in 951ms
+2026-01-07 14:09:50.031 [http-nio-8080-exec-2] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:09:50.033 [http-nio-8080-exec-2] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=94a1db68-a55b-47e3-a317-bfe7bc19fe72, question=1
+2026-01-07 14:09:50.033 [http-nio-8080-exec-2] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 26924 bytes
+2026-01-07 14:09:52.390 [http-nio-8080-exec-2] INFO  c.v.c.service.SpeechToTextService - Transcription complete: '' (2357ms)
+2026-01-07 14:09:52.390 [http-nio-8080-exec-2] WARN  c.v.c.s.QuestionnaireOrchestrator - Empty transcript for session=94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:09:52.391 [http-nio-8080-exec-2] INFO  c.v.c.s.QuestionnaireOrchestrator - Session=94a1db68-a55b-47e3-a317-bfe7bc19fe72, question=1, retryMessage='I didn't quite catch that. Let me repeat the question. Over the past week, how confident have you felt in making healthy food choices?'
+2026-01-07 14:09:52.397 [http-nio-8080-exec-3] INFO  c.v.c.c.QuestionnaireController - Getting retry audio for session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:09:52.397 [http-nio-8080-exec-3] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 134)
+2026-01-07 14:09:53.619 [http-nio-8080-exec-3] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 49148 bytes in 1221ms
+2026-01-07 14:10:03.805 [http-nio-8080-exec-4] INFO  c.v.c.c.QuestionnaireController - Processing voice response for session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:10:03.807 [http-nio-8080-exec-4] INFO  c.v.c.s.QuestionnaireOrchestrator - Processing response for session=94a1db68-a55b-47e3-a317-bfe7bc19fe72, question=1
+2026-01-07 14:10:03.807 [http-nio-8080-exec-4] INFO  c.v.c.service.SpeechToTextService - Starting transcription for 44204 bytes
+2026-01-07 14:10:06.485 [http-nio-8080-exec-4] INFO  c.v.c.service.SpeechToTextService - Transcription complete: '' (2677ms)
+2026-01-07 14:10:06.485 [http-nio-8080-exec-4] WARN  c.v.c.s.QuestionnaireOrchestrator - Empty transcript for session=94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:10:06.486 [http-nio-8080-exec-4] INFO  c.v.c.s.QuestionnaireOrchestrator - Session=94a1db68-a55b-47e3-a317-bfe7bc19fe72, question=1, retryMessage='I didn't quite catch that. Let me repeat the question. Over the past week, how confident have you felt in making healthy food choices?'
+2026-01-07 14:10:06.493 [http-nio-8080-exec-5] INFO  c.v.c.c.QuestionnaireController - Getting retry audio for session: 94a1db68-a55b-47e3-a317-bfe7bc19fe72
+2026-01-07 14:10:06.493 [http-nio-8080-exec-5] INFO  c.v.c.service.TextToSpeechService - Synthesizing speech for text (length: 134)
+2026-01-07 14:10:07.572 [http-nio-8080-exec-5] INFO  c.v.c.service.TextToSpeechService - Speech synthesis successful: 49148 bytes in 1079ms
+2026-01-07 14:11:54.908 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-07 14:11:54.910 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete

@@ -93,7 +93,7 @@ public class ResponseClassifier {
             1. Acknowledges their response kindly
             2. Gently explains why it doesn't match the expected format
             3. Encourages them to try again with one of the valid options
-            4. Gets progressively more helpful with each retry (if retry count is high, be more explicit)
+            4. Gets progressively more helpful with each retry
             5. Maintains a warm, supportive tone
             
             Respond with ONLY a JSON object in this exact format (no markdown, no preamble):
