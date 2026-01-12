@@ -82,27 +82,35 @@ public class ResponseClassifier {
             User's spoken response: "%s"
             
             Classification rules:
-            1. Be flexible with synonyms (e.g., "pretty confident" matches "somewhat confident")
-            2. Handle numbers as words or digits (e.g., "zero days" or "0" both match "0")
-            3. Ignore filler words and minor variations
-            4. If the response closely maps to a category, set matched=true
-            5. If ambiguous or doesn't match any category, set matched=false
-            
-            If you decided to set matched=false then you need to politely ask them to try again:
-            Generate a SHORT, natural, conversational retry message (1-2 sentences max) that:
-            1. Acknowledges their response kindly
-            2. Gently explains why it doesn't match the expected format
-            3. Encourages them to try again with one of the valid options
-            4. Gets progressively more helpful with each retry
-            5. Maintains a warm, supportive tone
-            
-            Respond with ONLY a JSON object in this exact format (no markdown, no preamble):
-            {"matched": true/false, "category": "exact category string or null", "confidence": 0.0-1.0, "retryMessage": ""}
-            
-            Examples:
-            - Response: "I felt quite confident" → {"matched": true, "category": "somewhat confident", "confidence": 0.85, "retryMessage": ""}
-            - Response: "zero" → {"matched": true, "category": "0", "confidence": 0.95, "retryMessage": ""}
-            - Response: "I don't know" → {"matched": false, "category": null, "confidence": 0.1, "retryMessage": "I didn't quite catch that. Could you please choose one of these options: yes, no, sometimes, I don't take medication, or I don't have access to my medication?"}
+            1. Synonyms and Variations: Be flexible with synonyms, informal expressions, and subtle variations. For example, "pretty confident" matches "somewhat confident," and "fairly confident" can be mapped to "somewhat confident" too. Ensure to handle common informal phrases, e.g., "quite confident," "fairly confident," and other similar expressions.
+            2. American English and Slang: Consider variations in American English, informal language, and regional slang. For example, "kinda" for "kind of" or "gonna" for "going to" should be handled.
+            3. Handling Numbers as Words or Digits: Be flexible with numbers written as words or digits. For example, "zero" should be mapped to "0," "one" to "1," and "10" to "ten." Also, handle ranges expressed in different formats (e.g., "1-3," "1 to 3," or "between 1 and 3" all map to the "1-3" range).
+            4. Handling Minutes as a Fraction of a Day: If the question asks about days, treat minutes as a part of the day. For example, if the user mentions "20 minutes a day" in response to a question about how many days they engaged in activity, interpret it as "regularly."
+            5. Filler Words: Ignore filler words like "um," "uh," "like," and minor variations. Only focus on the core response.
+            6. Matching Criteria:
+            If the response closely matches one of the predefined categories, set matched=true.
+            If there is ambiguity or the response doesn't match any category, set matched=false.
+            7. Ambiguity Handling:
+            If the response is ambiguous or doesn't clearly fit a category, politely ask the user to try again. For example, if the user says "sometimes I walk" in response to a question about exercise, but the predefined options are more specific, gently explain that it doesn't match and encourage a more concise answer.
+            8. Exercise Activity Mapping:
+            If a user responds about an exercise activity other than the one mentioned in the question (e.g., running instead of walking), consider it as a sign of being quite active.
+            Ask if they do this activity more frequently than the least option given (e.g., "Do you do this for more than 1-3 days a week?").
+            Retry Message:
+            • If the response is classified as unmatched, generate a short, natural, conversational retry message:
+            Acknowledge their response kindly (e.g., "Thanks for your response!").
+            Gently explain why it doesn't match the expected format (e.g., "I didn't quite catch that.").
+            Encourage them to try again with a concise response (e.g., "Could you please try again with one of the options?").
+            Get progressively more helpful with each retry. For example, if the user provides a vague answer multiple times, you can guide them towards the valid options explicitly (e.g., "Could you tell me how many days a week you engage in activity, such as walking?").
+            Example Format for Responses:
+            1. Matched Response:
+            • Response: "I felt quite confident"
+            {"matched": true, "category": "somewhat confident", "confidence": 0.85, "retryMessage": ""}
+            2. Number Handling:
+            • Response: "zero"
+            {"matched": true, "category": "0", "confidence": 0.95, "retryMessage": ""}
+            3. Ambiguous Response:
+            • Response: "I don't know", "Thinking"
+            {"matched": false, "category": null, "confidence": 0.1, "retryMessage": "I didn't quite catch that. Could you please choose one of these options: yes, no, sometimes, I don't take medication, or I don't have access to my medication?"}
             """,
                 question.getText(),
                 categoriesStr,
